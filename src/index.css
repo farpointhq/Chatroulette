@@ -19,3 +19,483 @@ body {
   width: 100%;
   height: 100vh;
 }
+
+/* ============================================
+   Lobby Container & Layout
+   ============================================ */
+
+.app {
+  width: 100%;
+  height: 100%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.lobby-container {
+  width: 100%;
+  max-width: 480px;
+  padding: 20px;
+  position: relative;
+}
+
+.lobby-main {
+  width: 100%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  animation: fadeIn 0.3s ease-in-out;
+}
+
+.lobby-card {
+  background: rgba(255, 255, 255, 0.05);
+  border-radius: 16px;
+  padding: 32px;
+  width: 100%;
+  max-width: 400px;
+  text-align: center;
+  box-shadow: 0 8px 32px rgba(0, 0, 0, 0.3);
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+.lobby-card:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 12px 40px rgba(0, 0, 0, 0.4);
+}
+
+/* ============================================
+   Typography
+   ============================================ */
+
+.lobby-title {
+  font-size: 2.5rem;
+  font-weight: 700;
+  margin: 0 0 24px 0;
+  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+}
+
+/* ============================================
+   Nickname Input
+   ============================================ */
+
+.nickname-input-group {
+  margin-bottom: 20px;
+  text-align: left;
+}
+
+.nickname-label {
+  display: block;
+  font-size: 0.875rem;
+  font-weight: 500;
+  margin-bottom: 8px;
+  color: #a0a0a0;
+}
+
+.nickname-input {
+  width: 100%;
+  padding: 12px 16px;
+  font-size: 1rem;
+  background: rgba(255, 255, 255, 0.1);
+  border: 2px solid rgba(255, 255, 255, 0.2);
+  border-radius: 8px;
+  color: #e0e0e0;
+  transition: border-color 0.2s ease, box-shadow 0.2s ease;
+  box-sizing: border-box;
+}
+
+.nickname-input::placeholder {
+  color: #666;
+}
+
+.nickname-input:focus {
+  outline: none;
+  border-color: #667eea;
+  box-shadow: 0 0 0 3px rgba(102, 126, 234, 0.2);
+}
+
+/* ============================================
+   Online Players Count
+   ============================================ */
+
+.online-players {
+  font-size: 0.875rem;
+  color: #888;
+  margin-bottom: 24px;
+}
+
+/* ============================================
+   Buttons
+   ============================================ */
+
+.find-match-button,
+.cancel-button,
+.accept-button,
+.decline-button,
+.retry-button,
+.return-to-lobby-button {
+  padding: 14px 32px;
+  font-size: 1rem;
+  font-weight: 600;
+  border: none;
+  border-radius: 8px;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+}
+
+.find-match-button {
+  width: 100%;
+  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+  color: white;
+}
+
+.find-match-button:hover:not(:disabled) {
+  transform: translateY(-2px);
+  box-shadow: 0 6px 20px rgba(102, 126, 234, 0.4);
+}
+
+.find-match-button:disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+  transform: none;
+}
+
+.cancel-button {
+  background: rgba(255, 255, 255, 0.1);
+  color: #e0e0e0;
+  border: 2px solid rgba(255, 255, 255, 0.2);
+}
+
+.cancel-button:hover {
+  background: rgba(255, 255, 255, 0.2);
+  border-color: rgba(255, 255, 255, 0.3);
+}
+
+.accept-button {
+  background: linear-gradient(135deg, #11998e 0%, #38ef7d 100%);
+  color: white;
+}
+
+.accept-button:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 6px 20px rgba(17, 153, 142, 0.4);
+}
+
+.decline-button {
+  background: linear-gradient(135deg, #eb3349 0%, #f45c43 100%);
+  color: white;
+}
+
+.decline-button:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 6px 20px rgba(235, 51, 73, 0.4);
+}
+
+.retry-button {
+  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+  color: white;
+  margin-top: 16px;
+}
+
+.retry-button:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 6px 20px rgba(102, 126, 234, 0.4);
+}
+
+.return-to-lobby-button {
+  background: rgba(255, 255, 255, 0.1);
+  color: #e0e0e0;
+  border: 2px solid rgba(255, 255, 255, 0.2);
+  margin-top: 16px;
+}
+
+.return-to-lobby-button:hover {
+  background: rgba(255, 255, 255, 0.2);
+}
+
+/* ============================================
+   Spinner Animation
+   ============================================ */
+
+.matchmaking-queue {
+  text-align: center;
+  padding: 40px 20px;
+  animation: fadeIn 0.3s ease-in-out;
+}
+
+.spinner {
+  position: relative;
+  width: 64px;
+  height: 64px;
+  margin: 0 auto 24px;
+}
+
+.spinner-ring {
+  position: absolute;
+  width: 100%;
+  height: 100%;
+  border: 3px solid transparent;
+  border-top-color: #667eea;
+  border-radius: 50%;
+  animation: spin 1.2s cubic-bezier(0.5, 0, 0.5, 1) infinite;
+}
+
+.spinner-ring:nth-child(1) {
+  animation-delay: -0.45s;
+  border-top-color: #667eea;
+}
+
+.spinner-ring:nth-child(2) {
+  width: 80%;
+  height: 80%;
+  top: 10%;
+  left: 10%;
+  animation-delay: -0.3s;
+  border-top-color: #764ba2;
+}
+
+.spinner-ring:nth-child(3) {
+  width: 60%;
+  height: 60%;
+  top: 20%;
+  left: 20%;
+  animation-delay: -0.15s;
+  border-top-color: #38ef7d;
+}
+
+@keyframes spin {
+  0% {
+    transform: rotate(0deg);
+  }
+  100% {
+    transform: rotate(360deg);
+  }
+}
+
+.searching-text {
+  font-size: 1.25rem;
+  font-weight: 500;
+  margin-bottom: 12px;
+  color: #e0e0e0;
+}
+
+.wait-time {
+  font-size: 0.875rem;
+  color: #888;
+  margin-bottom: 24px;
+}
+
+/* ============================================
+   Opponent Found
+   ============================================ */
+
+.opponent-found {
+  text-align: center;
+  padding: 40px 20px;
+  animation: fadeIn 0.3s ease-in-out, scaleIn 0.3s ease-in-out;
+}
+
+@keyframes scaleIn {
+  0% {
+    transform: scale(0.9);
+    opacity: 0;
+  }
+  100% {
+    transform: scale(1);
+    opacity: 1;
+  }
+}
+
+.match-title {
+  font-size: 1.75rem;
+  font-weight: 700;
+  margin-bottom: 24px;
+  background: linear-gradient(135deg, #38ef7d 0%, #11998e 100%);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+}
+
+.opponent-info {
+  background: rgba(255, 255, 255, 0.05);
+  border-radius: 12px;
+  padding: 20px;
+  margin-bottom: 24px;
+  border: 1px solid rgba(255, 255, 255, 0.1);
+}
+
+.opponent-nickname {
+  font-size: 1.5rem;
+  font-weight: 600;
+  margin: 0 0 8px 0;
+  color: #e0e0e0;
+}
+
+.opponent-rating {
+  font-size: 0.875rem;
+  color: #888;
+  margin: 0;
+}
+
+.color-indicator {
+  margin-top: 16px;
+  padding: 12px;
+  border-radius: 8px;
+  font-weight: 500;
+}
+
+.color-white {
+  background: rgba(255, 255, 255, 0.1);
+  border: 2px solid #fff;
+}
+
+.color-black {
+  background: rgba(0, 0, 0, 0.3);
+  border: 2px solid #333;
+}
+
+.color-label {
+  color: #e0e0e0;
+}
+
+.countdown-container {
+  margin-bottom: 24px;
+}
+
+.countdown-label {
+  font-size: 0.875rem;
+  color: #888;
+  margin-bottom: 8px;
+}
+
+.countdown-timer {
+  font-size: 3rem;
+  font-weight: 700;
+  color: #667eea;
+  font-variant-numeric: tabular-nums;
+}
+
+.action-buttons {
+  display: flex;
+  gap: 12px;
+  justify-content: center;
+}
+
+.accept-button,
+.decline-button {
+  flex: 1;
+  max-width: 140px;
+}
+
+/* ============================================
+   In-Game State
+   ============================================ */
+
+.in-game-state {
+  text-align: center;
+  padding: 40px 20px;
+  animation: fadeIn 0.3s ease-in-out;
+}
+
+.in-game-state h2 {
+  font-size: 1.75rem;
+  font-weight: 700;
+  margin-bottom: 12px;
+  color: #e0e0e0;
+}
+
+.in-game-state p {
+  color: #888;
+  margin-bottom: 24px;
+}
+
+/* ============================================
+   Connection Error Overlay
+   ============================================ */
+
+.connection-error-overlay {
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: rgba(0, 0, 0, 0.8);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  border-radius: 16px;
+  animation: fadeIn 0.2s ease-in-out;
+  z-index: 10;
+}
+
+.error-content {
+  text-align: center;
+  padding: 32px;
+  background: rgba(255, 255, 255, 0.05);
+  border-radius: 12px;
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  max-width: 320px;
+}
+
+.error-icon {
+  font-size: 3rem;
+  margin-bottom: 16px;
+}
+
+.error-title {
+  font-size: 1.25rem;
+  font-weight: 600;
+  margin-bottom: 12px;
+  color: #eb3349;
+}
+
+.error-message {
+  color: #a0a0a0;
+  margin-bottom: 20px;
+  line-height: 1.5;
+}
+
+/* ============================================
+   Animations
+   ============================================ */
+
+@keyframes fadeIn {
+  0% {
+    opacity: 0;
+  }
+  100% {
+    opacity: 1;
+  }
+}
+
+/* ============================================
+   Responsive Design
+   ============================================ */
+
+@media (max-width: 480px) {
+  .lobby-container {
+    padding: 16px;
+  }
+
+  .lobby-card {
+    padding: 24px;
+  }
+
+  .lobby-title {
+    font-size: 2rem;
+  }
+
+  .action-buttons {
+    flex-direction: column;
+  }
+
+  .accept-button,
+  .decline-button {
+    max-width: none;
+  }
+}
