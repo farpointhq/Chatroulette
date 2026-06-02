@@ -1,5 +1,5 @@
 import React from 'react';
-import type { OpponentFoundProps } from '../../types/lobby';
+import type { OpponentFoundProps } from './types';
 
 /**
  * Opponent Found Component - Match Found State

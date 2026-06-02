@@ -1,5 +1,5 @@
 import React from 'react';
-import type { ConnectionErrorProps } from '../../types/lobby';
+import type { ConnectionErrorProps } from './types';
 
 /**
  * Connection Error Component - Error State Overlay

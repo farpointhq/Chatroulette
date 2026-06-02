@@ -1,5 +1,5 @@
 import React from 'react';
-import type { LandingPageProps } from '../../types/lobby';
+import type { LandingPageProps } from './types';
 
 /**
  * Landing Page Component - Idle State

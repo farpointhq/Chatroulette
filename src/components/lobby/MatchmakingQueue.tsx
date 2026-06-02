@@ -1,5 +1,5 @@
 import React from 'react';
-import type { MatchmakingQueueProps } from '../../types/lobby';
+import type { MatchmakingQueueProps } from './types';
 
 /**
  * Matchmaking Queue Component - Searching State
