@@ -40,3 +40,41 @@ export interface LobbyProps {
   /** Callback when user declines a match */
   onDeclineMatch: () => void;
 }
+
+export interface LandingPageProps {
+  /** The local player's nickname */
+  nickname: string;
+  /** Number of players currently online */
+  onlinePlayers: number;
+  /** Callback when nickname input changes */
+  onNicknameChange: (nickname: string) => void;
+  /** Callback when user clicks "Find Match" */
+  onFindMatch: () => void;
+}
+
+export interface MatchmakingQueueProps {
+  /** Estimated wait time in seconds (null if not available) */
+  estimatedWaitTime: number | null;
+  /** Callback when user cancels search */
+  onCancel: () => void;
+}
+
+export interface OpponentFoundProps {
+  /** Opponent information */
+  opponent: PlayerInfo;
+  /** Assigned color for the local player */
+  color: 'white' | 'black';
+  /** Countdown timer in seconds */
+  countdownSeconds: number;
+  /** Callback when user accepts the match */
+  onAccept: () => void;
+  /** Callback when user declines the match */
+  onDecline: () => void;
+}
+
+export interface ConnectionErrorProps {
+  /** Error message to display */
+  errorMessage: string;
+  /** Callback when user clicks retry */
+  onRetry: () => void;
+}

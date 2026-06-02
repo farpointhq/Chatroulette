@@ -12,13 +12,16 @@ global.MediaStream = vi.fn().mockImplementation((tracks = []) => ({
 })) as unknown as typeof MediaStream;
 
 // Mock navigator.mediaDevices for WebRTC tests
-Object.defineProperty(global.navigator, 'mediaDevices', {
-  value: {
-    getUserMedia: vi.fn().mockResolvedValue(new MediaStream()),
-    enumerateDevices: vi.fn().mockResolvedValue([]),
-  },
-  writable: true,
-});
+if (global.navigator) {
+  Object.defineProperty(global.navigator, 'mediaDevices', {
+    value: {
+      getUserMedia: vi.fn().mockResolvedValue(new MediaStream()),
+      enumerateDevices: vi.fn().mockResolvedValue([]),
+    },
+    writable: true,
+    configurable: true,
+  });
+}
 
 // Mock RTCPeerConnection
 global.RTCPeerConnection = vi.fn().mockImplementation(() => ({
@@ -36,13 +39,15 @@ global.RTCPeerConnection = vi.fn().mockImplementation(() => ({
   getSenders: vi.fn().mockReturnValue([]),
 }));
 
-// Mock HTMLVideoElement methods
-Object.defineProperty(HTMLMediaElement.prototype, 'play', {
-  writable: true,
-  value: vi.fn().mockResolvedValue(undefined),
-});
+// Mock HTMLVideoElement methods (only if HTMLMediaElement exists)
+if (typeof HTMLMediaElement !== 'undefined') {
+  Object.defineProperty(HTMLMediaElement.prototype, 'play', {
+    writable: true,
+    value: vi.fn().mockResolvedValue(undefined),
+  });
 
-Object.defineProperty(HTMLMediaElement.prototype, 'pause', {
-  writable: true,
-  value: vi.fn(),
-});
+  Object.defineProperty(HTMLMediaElement.prototype, 'pause', {
+    writable: true,
+    value: vi.fn(),
+  });
+}
