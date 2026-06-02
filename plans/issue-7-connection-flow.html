@@ -1,0 +1,111 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <link rel="stylesheet" href="../stylesheets/extra.css">
+  <style>
+    .diagram { width: 900px; padding: 30px; }
+    .state-flow { display: flex; align-items: center; justify-content: space-between; margin-top: 16px; gap: 8px; }
+    .state-node {
+      padding: 12px 16px;
+      border-radius: 8px;
+      font-size: 13px;
+      text-align: center;
+      min-width: 100px;
+      border: 2px solid;
+    }
+    .state-node.new { background: #2a2a3e; border-color: #888; color: #888; }
+    .state-node.connecting { background: #3a2e1e; border-color: #f0ad4e; color: #f0ad4e; }
+    .state-node.connected { background: #1e3a1e; border-color: #5cb85c; color: #5cb85c; }
+    .state-node.disconnected { background: #3a1e1e; border-color: #d9534f; color: #d9534f; }
+    .state-node.failed { background: #3a1e1e; border-color: #d9534f; color: #d9534f; }
+    .arrow { color: #888; font-size: 18px; }
+    .arrow-label { font-size: 10px; color: #aaa; text-align: center; margin-top: 4px; }
+    .ui-preview { margin-top: 24px; border: 1px solid #333; border-radius: 8px; padding: 16px; background: #1a1a1a; }
+    .ui-preview-title { font-size: 12px; color: #888; margin-bottom: 12px; text-transform: uppercase; }
+    .feed-row { display: flex; gap: 12px; }
+    .feed { flex: 1; height: 80px; border-radius: 6px; display: flex; align-items: center; justify-content: center; font-size: 12px; border: 2px solid #333; }
+    .feed.local { border-color: #5cb85c; background: #0d1f0d; color: #5cb85c; }
+    .feed.remote { border-color: #333; background: #1e1e2e; color: #888; }
+    .feed.remote.connected { border-color: #6a5af9; background: #151530; color: #6a5af9; }
+    .placeholder { font-size: 11px; color: #666; }
+  </style>
+</head>
+<body>
+<div class="diagram">
+  <div class="diagram-title">Connection State Flow & UI Mapping</div>
+
+  <div class="diagram-box main" style="margin-bottom: 20px;">
+    <div class="diagram-box-title">WEBRTC CONNECTION STATES</div>
+    <div class="state-flow">
+      <div class="state-node new">new</div>
+      <div>
+        <div class="arrow">→</div>
+        <div class="arrow-label">getUserMedia</div>
+      </div>
+      <div class="state-node connecting">connecting</div>
+      <div>
+        <div class="arrow">→</div>
+        <div class="arrow-label">signal exchange</div>
+      </div>
+      <div class="state-node connected">connected</div>
+      <div>
+        <div class="arrow">→</div>
+        <div class="arrow-label">ICE close</div>
+      </div>
+      <div class="state-node disconnected">disconnected</div>
+      <div>
+        <div class="arrow">→</div>
+        <div class="arrow-label">failure</div>
+      </div>
+      <div class="state-node failed">failed</div>
+    </div>
+  </div>
+
+  <div class="diagram-comparison" style="display: flex; gap: 16px;">
+    <div class="diagram-comparison-side" style="flex: 1;">
+      <div class="diagram-comparison-title">CONNECTING STATE</div>
+      <div class="diagram-comparison-content">
+        <div class="ui-preview">
+          <div class="ui-preview-title">UI Preview</div>
+          <div class="feed-row">
+            <div class="feed local">🎥 You</div>
+            <div class="feed remote">
+              <span class="placeholder">⏳ Waiting…</span>
+            </div>
+          </div>
+          <div style="margin-top: 8px; font-size: 11px; color: #f0ad4e;">● connecting</div>
+        </div>
+      </div>
+    </div>
+    <div class="diagram-comparison-side" style="flex: 1;">
+      <div class="diagram-comparison-title">CONNECTED STATE</div>
+      <div class="diagram-comparison-content">
+        <div class="ui-preview">
+          <div class="ui-preview-title">UI Preview</div>
+          <div class="feed-row">
+            <div class="feed local">🎥 You</div>
+            <div class="feed remote connected">🎥 Opponent</div>
+          </div>
+          <div style="margin-top: 8px; font-size: 11px; color: #5cb85c;">● connected</div>
+        </div>
+      </div>
+    </div>
+    <div class="diagram-comparison-side" style="flex: 1;">
+      <div class="diagram-comparison-title">DISCONNECTED STATE</div>
+      <div class="diagram-comparison-content">
+        <div class="ui-preview">
+          <div class="ui-preview-title">UI Preview</div>
+          <div class="feed-row">
+            <div class="feed local">🎥 You</div>
+            <div class="feed remote">
+              <span class="placeholder">❌ Disconnected</span>
+            </div>
+          </div>
+          <div style="margin-top: 8px; font-size: 11px; color: #d9534f;">● disconnected</div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+</body>
+</html>

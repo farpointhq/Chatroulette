@@ -1,0 +1,44 @@
+DIAGRAM CSS CLASSES (use with extra.css)
+
+CONTAINER:
+  .diagram                    - Dark wrapper for entire diagram
+
+PROCESS BOXES:
+  .diagram-box.main           - Purple box (main process)
+  .diagram-box.renderer       - Green box (renderer process)
+  .diagram-box-title          - "MAIN PROCESS" header text
+
+STEPS:
+  .diagram-steps              - Flex column container for steps
+  .diagram-step               - Single step row (flex)
+  .diagram-step-num           - Numbered circle (1,2,3...)
+  .diagram-step-text          - Step description text
+  .diagram-step-code          - Inline code styling
+
+CONNECTORS:
+  .diagram-connector          - Vertical line between steps
+
+IPC ARROW:
+  .diagram-ipc                - Centered arrow container
+  .diagram-ipc-inner          - Inner flex column
+  .diagram-ipc-line           - Gradient vertical line
+  .diagram-ipc-label          - "IPC: event" label box
+  .diagram-ipc-arrow          - Triangle arrow head
+
+BRANCHES:
+  .diagram-branch             - Flex row for yes/no boxes
+  .diagram-branch-box.yes     - Green success box
+  .diagram-branch-box.no      - Red error box
+  .diagram-branch-title       - "✓ YES" or "✗ NO"
+  .diagram-branch-text        - Branch description
+
+TEMPLATE:
+<div class="diagram">
+  <div class="diagram-box main">
+    <div class="diagram-box-title">TITLE</div>
+    <div class="diagram-steps">
+      <div class="diagram-step"><span class="diagram-step-num">1</span><span class="diagram-step-text">Text</span></div>
+      <div class="diagram-connector"></div>
+    </div>
+  </div>
+</div>

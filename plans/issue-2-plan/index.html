@@ -1,0 +1,1510 @@
+<!DOCTYPE html><html lang="en" class="no-js"><head>
+    
+      <meta charset="utf-8">
+      <meta name="viewport" content="width=device-width,initial-scale=1">
+      
+      
+      
+        <link rel="canonical" href="https://farpointhq.github.io/chatroulette-plans/plans/issue-2-plan/">
+      
+      
+        <link rel="prev" href="../..">
+      
+      
+        <link rel="next" href="../issue-3-plan/">
+      
+      
+        
+      
+      
+      <link rel="icon" href="../../assets/images/favicon.png">
+      <meta name="generator" content="mkdocs-1.6.1, mkdocs-material-9.7.6">
+    
+    
+      
+        <title>Issue 2 - Server Scaffolding - Implementation Plans</title>
+      
+    
+    
+      <link rel="stylesheet" href="../../assets/stylesheets/main.484c7ddc.min.css">
+      
+        
+        <link rel="stylesheet" href="../../assets/stylesheets/palette.ab4e12ef.min.css">
+      
+      
+
+
+    
+    
+      
+    
+    
+      
+        
+        
+        <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin="">
+        <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Roboto:300,300i,400,400i,700,700i%7CRoboto+Mono:400,400i,700,700i&amp;display=fallback">
+        <style>:root{--md-text-font:"Roboto";--md-code-font:"Roboto Mono"}</style>
+      
+    
+    
+      <link rel="stylesheet" href="../../stylesheets/extra.css">
+    
+    <script>__md_scope=new URL("../..",location),__md_hash=e=>[...e].reduce(((e,_)=>(e<<5)-e+_.charCodeAt(0)),0),__md_get=(e,_=localStorage,t=__md_scope)=>JSON.parse(_.getItem(t.pathname+"."+e)),__md_set=(e,_,t=localStorage,a=__md_scope)=>{try{t.setItem(a.pathname+"."+e,JSON.stringify(_))}catch(e){}}</script>
+    
+      
+
+    
+    
+  <link href="../../assets/stylesheets/glightbox.min.css" rel="stylesheet"><script src="../../assets/javascripts/glightbox.min.js"></script><style id="glightbox-style">
+            html.glightbox-open { overflow: initial; height: 100%; }
+            .gslide-title { margin-top: 0px; user-select: text; }
+            .gslide-desc { color: #666; user-select: text; }
+            .gslide-image img { background: white; }
+            .gscrollbar-fixer { padding-right: 15px; }
+            .gdesc-inner { font-size: 0.75rem; }
+            body[data-md-color-scheme="slate"] .gdesc-inner { background: var(--md-default-bg-color); }
+            body[data-md-color-scheme="slate"] .gslide-title { color: var(--md-default-fg-color); }
+            body[data-md-color-scheme="slate"] .gslide-desc { color: var(--md-default-fg-color); }
+        </style></head>
+  
+  
+    
+    
+      
+    
+    
+    
+    
+    <body dir="ltr" data-md-color-scheme="slate" data-md-color-primary="deep-purple" data-md-color-accent="indigo">
+  
+    
+    <input class="md-toggle" data-md-toggle="drawer" type="checkbox" id="__drawer" autocomplete="off">
+    <input class="md-toggle" data-md-toggle="search" type="checkbox" id="__search" autocomplete="off">
+    <label class="md-overlay" for="__drawer"></label>
+    <div data-md-component="skip">
+      
+        
+        <a href="#issue-2-server-scaffolding-websocket-setup" class="md-skip">
+          Skip to content
+        </a>
+      
+    </div>
+    <div data-md-component="announce">
+      
+    </div>
+    
+    
+      
+
+  
+
+<header class="md-header md-header--shadow" data-md-component="header">
+  <nav class="md-header__inner md-grid" aria-label="Header">
+    <a href="../.." title="Implementation Plans" class="md-header__button md-logo" aria-label="Implementation Plans" data-md-component="logo">
+      
+  
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 8a3 3 0 0 0 3-3 3 3 0 0 0-3-3 3 3 0 0 0-3 3 3 3 0 0 0 3 3m0 3.54C9.64 9.35 6.5 8 3 8v11c3.5 0 6.64 1.35 9 3.54 2.36-2.19 5.5-3.54 9-3.54V8c-3.5 0-6.64 1.35-9 3.54"></path></svg>
+
+    </a>
+    <label class="md-header__button md-icon" for="__drawer">
+      
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M3 6h18v2H3zm0 5h18v2H3zm0 5h18v2H3z"></path></svg>
+    </label>
+    <div class="md-header__title" data-md-component="header-title">
+      <div class="md-header__ellipsis">
+        <div class="md-header__topic">
+          <span class="md-ellipsis">
+            Implementation Plans
+          </span>
+        </div>
+        <div class="md-header__topic" data-md-component="header-topic">
+          <span class="md-ellipsis">
+            
+              Issue 2 - Server Scaffolding
+            
+          </span>
+        </div>
+      </div>
+    </div>
+    
+      
+        <form class="md-header__option" data-md-component="palette">
+  
+    
+    
+    
+    <input class="md-option" data-md-color-media="(prefers-color-scheme: dark)" data-md-color-scheme="slate" data-md-color-primary="deep-purple" data-md-color-accent="indigo" aria-label="Switch to light mode" type="radio" name="__palette" id="__palette_0">
+    
+      <label class="md-header__button md-icon" title="Switch to light mode" for="__palette_1" hidden="">
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 18c-.89 0-1.74-.2-2.5-.55C11.56 16.5 13 14.42 13 12s-1.44-4.5-3.5-5.45C10.26 6.2 11.11 6 12 6a6 6 0 0 1 6 6 6 6 0 0 1-6 6m8-9.31V4h-4.69L12 .69 8.69 4H4v4.69L.69 12 4 15.31V20h4.69L12 23.31 15.31 20H20v-4.69L23.31 12z"></path></svg>
+      </label>
+    
+  
+    
+    
+    
+    <input class="md-option" data-md-color-media="(prefers-color-scheme: light)" data-md-color-scheme="default" data-md-color-primary="deep-purple" data-md-color-accent="indigo" aria-label="Switch to dark mode" type="radio" name="__palette" id="__palette_1">
+    
+      <label class="md-header__button md-icon" title="Switch to dark mode" for="__palette_0" hidden="">
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 8a4 4 0 0 0-4 4 4 4 0 0 0 4 4 4 4 0 0 0 4-4 4 4 0 0 0-4-4m0 10a6 6 0 0 1-6-6 6 6 0 0 1 6-6 6 6 0 0 1 6 6 6 6 0 0 1-6 6m8-9.31V4h-4.69L12 .69 8.69 4H4v4.69L.69 12 4 15.31V20h4.69L12 23.31 15.31 20H20v-4.69L23.31 12z"></path></svg>
+      </label>
+    
+  
+</form>
+      
+    
+    
+      <script>var palette=__md_get("__palette");if(palette&&palette.color){if("(prefers-color-scheme)"===palette.color.media){var media=matchMedia("(prefers-color-scheme: light)"),input=document.querySelector(media.matches?"[data-md-color-media='(prefers-color-scheme: light)']":"[data-md-color-media='(prefers-color-scheme: dark)']");palette.color.media=input.getAttribute("data-md-color-media"),palette.color.scheme=input.getAttribute("data-md-color-scheme"),palette.color.primary=input.getAttribute("data-md-color-primary"),palette.color.accent=input.getAttribute("data-md-color-accent")}for(var[key,value]of Object.entries(palette.color))document.body.setAttribute("data-md-color-"+key,value)}</script>
+    
+    
+    
+      
+      
+        <label class="md-header__button md-icon" for="__search">
+          
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9.5 3A6.5 6.5 0 0 1 16 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.52 6.52 0 0 1 9.5 16 6.5 6.5 0 0 1 3 9.5 6.5 6.5 0 0 1 9.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5"></path></svg>
+        </label>
+        <div class="md-search" data-md-component="search" role="dialog">
+  <label class="md-search__overlay" for="__search"></label>
+  <div class="md-search__inner" role="search">
+    <form class="md-search__form" name="search">
+      <input type="text" class="md-search__input" name="query" aria-label="Search" placeholder="Search" autocapitalize="off" autocorrect="off" autocomplete="off" spellcheck="false" data-md-component="search-query" required="">
+      <label class="md-search__icon md-icon" for="__search">
+        
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9.5 3A6.5 6.5 0 0 1 16 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.52 6.52 0 0 1 9.5 16 6.5 6.5 0 0 1 3 9.5 6.5 6.5 0 0 1 9.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5"></path></svg>
+        
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M20 11v2H8l5.5 5.5-1.42 1.42L4.16 12l7.92-7.92L13.5 5.5 8 11z"></path></svg>
+      </label>
+      <nav class="md-search__options" aria-label="Search">
+        
+        <button type="reset" class="md-search__icon md-icon" title="Clear" aria-label="Clear" tabindex="-1">
+          
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M19 6.41 17.59 5 12 10.59 6.41 5 5 6.41 10.59 12 5 17.59 6.41 19 12 13.41 17.59 19 19 17.59 13.41 12z"></path></svg>
+        </button>
+      </nav>
+      
+    </form>
+    <div class="md-search__output">
+      <div class="md-search__scrollwrap" tabindex="0" data-md-scrollfix="">
+        <div class="md-search-result" data-md-component="search-result">
+          <div class="md-search-result__meta">
+            Initializing search
+          </div>
+          <ol class="md-search-result__list" role="presentation"></ol>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+      
+    
+    
+  </nav>
+  
+</header>
+    
+    <div class="md-container" data-md-component="container">
+      
+      
+        
+          
+        
+      
+      <main class="md-main" data-md-component="main">
+        <div class="md-main__inner md-grid">
+          
+            
+              
+              <div class="md-sidebar md-sidebar--primary" data-md-component="sidebar" data-md-type="navigation">
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+                    
+
+
+
+<nav class="md-nav md-nav--primary" aria-label="Navigation" data-md-level="0">
+  <label class="md-nav__title" for="__drawer">
+    <a href="../.." title="Implementation Plans" class="md-nav__button md-logo" aria-label="Implementation Plans" data-md-component="logo">
+      
+  
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 8a3 3 0 0 0 3-3 3 3 0 0 0-3-3 3 3 0 0 0-3 3 3 3 0 0 0 3 3m0 3.54C9.64 9.35 6.5 8 3 8v11c3.5 0 6.64 1.35 9 3.54 2.36-2.19 5.5-3.54 9-3.54V8c-3.5 0-6.64 1.35-9 3.54"></path></svg>
+
+    </a>
+    Implementation Plans
+  </label>
+  
+  <ul class="md-nav__list" data-md-scrollfix="">
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../.." class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Home
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+    
+  
+  
+  
+    
+    
+    
+    
+      
+        
+        
+      
+    
+    
+    <li class="md-nav__item md-nav__item--active md-nav__item--section md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_2" checked="">
+        
+          
+          <label class="md-nav__link" for="__nav_2" id="__nav_2_label" tabindex="">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Plans
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_2_label" aria-expanded="true">
+          <label class="md-nav__title" for="__nav_2">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    Plans
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix="">
+            
+              
+                
+  
+  
+    
+  
+  
+  
+    <li class="md-nav__item md-nav__item--active">
+      
+      <input class="md-nav__toggle md-toggle" type="checkbox" id="__toc">
+      
+      
+        
+      
+      
+        <label class="md-nav__link md-nav__link--active" for="__toc">
+          
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Issue 2 - Server Scaffolding
+  
+
+    
+  </span>
+  
+  
+
+          <span class="md-nav__icon md-icon"></span>
+        </label>
+      
+      <a href="./" class="md-nav__link md-nav__link--active">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Issue 2 - Server Scaffolding
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+      
+        
+
+<nav class="md-nav md-nav--secondary" aria-label="Table of contents">
+  
+  
+  
+    
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      Table of contents
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix="">
+      
+        <li class="md-nav__item">
+  <a href="#summary" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Summary
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#root-cause-analysis" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Root Cause Analysis
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#proposed-solution" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Proposed Solution
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#files-to-modify" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Files to Modify
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#new-files" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        New Files
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#implementation-steps" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Implementation Steps
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Implementation Steps">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#phase-1-dependency-config-setup" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Phase 1: Dependency &amp; Config Setup
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#phase-2-core-server-srcserverts" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Phase 2: Core Server (src/server.ts)
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#phase-3-room-management-srcroomsts" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Phase 3: Room Management (src/rooms.ts)
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#phase-4-socket-handlers-srcsockethandlersts" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Phase 4: Socket Handlers (src/socket/handlers.ts)
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#phase-5-middleware" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Phase 5: Middleware
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#phase-6-types-config" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Phase 6: Types &amp; Config
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#phase-7-containerization" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Phase 7: Containerization
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#phase-8-integration" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Phase 8: Integration
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#test-strategy" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Test Strategy
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Test Strategy">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#unit-tests-new-serversrctestts" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Unit Tests (new — server/src/**/*.test.ts)
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#integration-tests" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Integration Tests
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#edge-cases" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Edge Cases
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#architecture" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Architecture
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#connection-flow" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Connection Flow
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#risks-mitigations" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Risks &amp; Mitigations
+      
+    </span>
+  </a>
+  
+</li>
+      
+    </ul>
+  
+</nav>
+      
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../issue-3-plan/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Issue 3 - Chess Engine
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../issue-6-plan/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Issue 6 - Chess Board Frontend
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+  </ul>
+</nav>
+                  </div>
+                </div>
+              </div>
+            
+            
+              
+              <div class="md-sidebar md-sidebar--secondary" data-md-component="sidebar" data-md-type="toc">
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+                    
+
+<nav class="md-nav md-nav--secondary" aria-label="Table of contents">
+  
+  
+  
+    
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      Table of contents
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix="">
+      
+        <li class="md-nav__item">
+  <a href="#summary" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Summary
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#root-cause-analysis" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Root Cause Analysis
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#proposed-solution" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Proposed Solution
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#files-to-modify" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Files to Modify
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#new-files" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        New Files
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#implementation-steps" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Implementation Steps
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Implementation Steps">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#phase-1-dependency-config-setup" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Phase 1: Dependency &amp; Config Setup
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#phase-2-core-server-srcserverts" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Phase 2: Core Server (src/server.ts)
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#phase-3-room-management-srcroomsts" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Phase 3: Room Management (src/rooms.ts)
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#phase-4-socket-handlers-srcsockethandlersts" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Phase 4: Socket Handlers (src/socket/handlers.ts)
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#phase-5-middleware" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Phase 5: Middleware
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#phase-6-types-config" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Phase 6: Types &amp; Config
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#phase-7-containerization" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Phase 7: Containerization
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#phase-8-integration" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Phase 8: Integration
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#test-strategy" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Test Strategy
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Test Strategy">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#unit-tests-new-serversrctestts" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Unit Tests (new — server/src/**/*.test.ts)
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#integration-tests" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Integration Tests
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#edge-cases" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Edge Cases
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#architecture" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Architecture
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#connection-flow" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Connection Flow
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#risks-mitigations" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Risks &amp; Mitigations
+      
+    </span>
+  </a>
+  
+</li>
+      
+    </ul>
+  
+</nav>
+                  </div>
+                </div>
+              </div>
+            
+          
+          
+            <div class="md-content" data-md-component="content">
+              
+              <article class="md-content__inner md-typeset">
+                
+                  
+
+
+
+<h1 id="issue-2-server-scaffolding-websocket-setup">Issue #2: Server scaffolding &amp; WebSocket setup</h1>
+<h2 id="summary">Summary</h2>
+<p>Replace the stubbed plain-WebSocket server with a production-ready Express + Socket.io infrastructure. Set up room management, health checks, environment configuration, and containerization. This is the foundational layer that all real-time game features depend on.</p>
+<h2 id="root-cause-analysis">Root Cause Analysis</h2>
+<p>The project currently has a minimal stubbed server under <code>server/</code>:
+- <strong><code>server/package.json</code></strong> — Uses plain <code>ws</code> (WebSocket) library, no Express, no Socket.io
+- <strong><code>server/src/index.js</code></strong> — Stubs for <code>createServer()</code>, <code>startServer()</code>, <code>stopServer()</code>
+- <strong><code>server/src/websocket.js</code></strong> — Stubs for WebSocket server creation and broadcasting
+- <strong><code>server/src/connection.js</code></strong> — Stubs for connection lifecycle management
+- No room management, no health checks, no CORS, no TypeScript, no Docker</p>
+<p>The issue explicitly requires Socket.io (rooms, namespaces, broadcasting) and Express (HTTP routes, middleware). The current <code>ws</code>-based stubs cannot fulfill these requirements without a full rewrite.</p>
+<h2 id="proposed-solution">Proposed Solution</h2>
+<ol>
+<li><strong>Replace the server directory</strong> with a TypeScript-based Express + Socket.io setup</li>
+<li><strong>Keep backward compatibility</strong> with existing lobby/client types (<code>src/types/lobby.ts</code>)</li>
+<li><strong>Add room management</strong> with in-memory state (sufficient for MVP; can migrate to Redis later)</li>
+<li><strong>Add health endpoint</strong> and environment-based configuration</li>
+<li><strong>Containerize</strong> with a multi-stage Dockerfile</li>
+<li><strong>Update root package.json</strong> scripts for unified dev workflow</li>
+</ol>
+<h2 id="files-to-modify">Files to Modify</h2>
+<table>
+<thead>
+<tr>
+<th>File</th>
+<th>Change</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>server/package.json</code></td>
+<td>Replace <code>ws</code> with <code>express</code> + <code>socket.io</code>; add TypeScript dev deps</td>
+</tr>
+<tr>
+<td><code>server/src/index.js</code></td>
+<td><strong>Rewrite</strong> → <code>src/server.ts</code> — Express app factory, startup, shutdown</td>
+</tr>
+<tr>
+<td><code>server/src/websocket.js</code></td>
+<td><strong>Delete</strong> — replaced by Socket.io</td>
+</tr>
+<tr>
+<td><code>server/src/connection.js</code></td>
+<td><strong>Rewrite</strong> → <code>src/socket/handlers.ts</code> — Socket.io event handlers</td>
+</tr>
+<tr>
+<td><code>server/src/rooms.js</code></td>
+<td><strong>New</strong> — In-memory room manager with create/join/leave/list/get</td>
+</tr>
+<tr>
+<td><code>server/src/types.ts</code></td>
+<td><strong>New</strong> — Shared TypeScript types for events, rooms, config</td>
+</tr>
+<tr>
+<td><code>server/src/config.ts</code></td>
+<td><strong>New</strong> — Environment configuration loader</td>
+</tr>
+<tr>
+<td><code>server/Dockerfile</code></td>
+<td><strong>New</strong> — Multi-stage build for containerization</td>
+</tr>
+<tr>
+<td><code>server/tsconfig.json</code></td>
+<td><strong>New</strong> — TypeScript compiler config</td>
+</tr>
+<tr>
+<td><code>server/.env.example</code></td>
+<td><strong>New</strong> — Example environment variables</td>
+</tr>
+<tr>
+<td><code>package.json</code> (root)</td>
+<td>Add <code>dev:server</code> script; update workspace config if needed</td>
+</tr>
+</tbody>
+</table>
+<h2 id="new-files">New Files</h2>
+<table>
+<thead>
+<tr>
+<th>File</th>
+<th>Purpose</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>server/src/server.ts</code></td>
+<td>Express + Socket.io server factory and lifecycle</td>
+</tr>
+<tr>
+<td><code>server/src/socket/handlers.ts</code></td>
+<td>Socket.io connection, room event handlers</td>
+</tr>
+<tr>
+<td><code>server/src/rooms.ts</code></td>
+<td>Room management: create, join, leave, list, get</td>
+</tr>
+<tr>
+<td><code>server/src/types.ts</code></td>
+<td><code>SocketEvents</code>, <code>RoomState</code>, <code>PlayerInfo</code>, <code>ServerConfig</code></td>
+</tr>
+<tr>
+<td><code>server/src/config.ts</code></td>
+<td><code>loadConfig()</code> — reads PORT, CORS_ORIGIN from env</td>
+</tr>
+<tr>
+<td><code>server/src/middleware/cors.ts</code></td>
+<td>CORS middleware factory</td>
+</tr>
+<tr>
+<td><code>server/src/middleware/health.ts</code></td>
+<td><code>GET /health</code> route handler</td>
+</tr>
+<tr>
+<td><code>server/Dockerfile</code></td>
+<td>Production container build</td>
+</tr>
+<tr>
+<td><code>server/tsconfig.json</code></td>
+<td>Server-specific TypeScript config</td>
+</tr>
+<tr>
+<td><code>server/.env.example</code></td>
+<td>Documented env vars</td>
+</tr>
+</tbody>
+</table>
+<h2 id="implementation-steps">Implementation Steps</h2>
+<h3 id="phase-1-dependency-config-setup">Phase 1: Dependency &amp; Config Setup</h3>
+<ol>
+<li>
+<p>Update <code>server/package.json</code>:
+   </p><div class="highlight"><pre><span></span><code><span class="p">{</span>
+<span class="w">  </span><span class="nt">"name"</span><span class="p">:</span><span class="w"> </span><span class="s2">"chatroulette-server"</span><span class="p">,</span>
+<span class="w">  </span><span class="nt">"version"</span><span class="p">:</span><span class="w"> </span><span class="s2">"1.0.0"</span><span class="p">,</span>
+<span class="w">  </span><span class="nt">"type"</span><span class="p">:</span><span class="w"> </span><span class="s2">"module"</span><span class="p">,</span>
+<span class="w">  </span><span class="nt">"scripts"</span><span class="p">:</span><span class="w"> </span><span class="p">{</span>
+<span class="w">    </span><span class="nt">"build"</span><span class="p">:</span><span class="w"> </span><span class="s2">"tsc"</span><span class="p">,</span>
+<span class="w">    </span><span class="nt">"dev"</span><span class="p">:</span><span class="w"> </span><span class="s2">"tsx src/server.ts"</span><span class="p">,</span>
+<span class="w">    </span><span class="nt">"start"</span><span class="p">:</span><span class="w"> </span><span class="s2">"node dist/server.js"</span><span class="p">,</span>
+<span class="w">    </span><span class="nt">"test"</span><span class="p">:</span><span class="w"> </span><span class="s2">"vitest run"</span>
+<span class="w">  </span><span class="p">},</span>
+<span class="w">  </span><span class="nt">"dependencies"</span><span class="p">:</span><span class="w"> </span><span class="p">{</span>
+<span class="w">    </span><span class="nt">"express"</span><span class="p">:</span><span class="w"> </span><span class="s2">"^4.19.0"</span><span class="p">,</span>
+<span class="w">    </span><span class="nt">"socket.io"</span><span class="p">:</span><span class="w"> </span><span class="s2">"^4.7.0"</span><span class="p">,</span>
+<span class="w">    </span><span class="nt">"dotenv"</span><span class="p">:</span><span class="w"> </span><span class="s2">"^16.4.0"</span>
+<span class="w">  </span><span class="p">},</span>
+<span class="w">  </span><span class="nt">"devDependencies"</span><span class="p">:</span><span class="w"> </span><span class="p">{</span>
+<span class="w">    </span><span class="nt">"@types/express"</span><span class="p">:</span><span class="w"> </span><span class="s2">"^4.17.21"</span><span class="p">,</span>
+<span class="w">    </span><span class="nt">"@types/node"</span><span class="p">:</span><span class="w"> </span><span class="s2">"^20.0.0"</span><span class="p">,</span>
+<span class="w">    </span><span class="nt">"typescript"</span><span class="p">:</span><span class="w"> </span><span class="s2">"^5.4.0"</span><span class="p">,</span>
+<span class="w">    </span><span class="nt">"tsx"</span><span class="p">:</span><span class="w"> </span><span class="s2">"^4.7.0"</span><span class="p">,</span>
+<span class="w">    </span><span class="nt">"vitest"</span><span class="p">:</span><span class="w"> </span><span class="s2">"^1.5.0"</span>
+<span class="w">  </span><span class="p">}</span>
+<span class="p">}</span>
+</code></pre></div><p></p>
+</li>
+<li>
+<p>Create <code>server/tsconfig.json</code>:
+   </p><div class="highlight"><pre><span></span><code><span class="p">{</span>
+<span class="w">  </span><span class="nt">"compilerOptions"</span><span class="p">:</span><span class="w"> </span><span class="p">{</span>
+<span class="w">    </span><span class="nt">"target"</span><span class="p">:</span><span class="w"> </span><span class="s2">"ES2022"</span><span class="p">,</span>
+<span class="w">    </span><span class="nt">"module"</span><span class="p">:</span><span class="w"> </span><span class="s2">"NodeNext"</span><span class="p">,</span>
+<span class="w">    </span><span class="nt">"moduleResolution"</span><span class="p">:</span><span class="w"> </span><span class="s2">"NodeNext"</span><span class="p">,</span>
+<span class="w">    </span><span class="nt">"outDir"</span><span class="p">:</span><span class="w"> </span><span class="s2">"./dist"</span><span class="p">,</span>
+<span class="w">    </span><span class="nt">"rootDir"</span><span class="p">:</span><span class="w"> </span><span class="s2">"./src"</span><span class="p">,</span>
+<span class="w">    </span><span class="nt">"strict"</span><span class="p">:</span><span class="w"> </span><span class="kc">true</span><span class="p">,</span>
+<span class="w">    </span><span class="nt">"esModuleInterop"</span><span class="p">:</span><span class="w"> </span><span class="kc">true</span><span class="p">,</span>
+<span class="w">    </span><span class="nt">"skipLibCheck"</span><span class="p">:</span><span class="w"> </span><span class="kc">true</span><span class="p">,</span>
+<span class="w">    </span><span class="nt">"resolveJsonModule"</span><span class="p">:</span><span class="w"> </span><span class="kc">true</span><span class="p">,</span>
+<span class="w">    </span><span class="nt">"declaration"</span><span class="p">:</span><span class="w"> </span><span class="kc">true</span><span class="p">,</span>
+<span class="w">    </span><span class="nt">"declarationMap"</span><span class="p">:</span><span class="w"> </span><span class="kc">true</span>
+<span class="w">  </span><span class="p">},</span>
+<span class="w">  </span><span class="nt">"include"</span><span class="p">:</span><span class="w"> </span><span class="p">[</span><span class="s2">"src/**/*"</span><span class="p">],</span>
+<span class="w">  </span><span class="nt">"exclude"</span><span class="p">:</span><span class="w"> </span><span class="p">[</span><span class="s2">"node_modules"</span><span class="p">,</span><span class="w"> </span><span class="s2">"dist"</span><span class="p">]</span>
+<span class="p">}</span>
+</code></pre></div><p></p>
+</li>
+<li>
+<p>Create <code>server/.env.example</code>:
+   </p><div class="highlight"><pre><span></span><code><span class="nv">PORT</span><span class="o">=</span><span class="m">3001</span>
+<span class="nv">CORS_ORIGIN</span><span class="o">=</span>http://localhost:5173
+<span class="nv">NODE_ENV</span><span class="o">=</span>development
+</code></pre></div><p></p>
+</li>
+</ol>
+<h3 id="phase-2-core-server-srcserverts">Phase 2: Core Server (<code>src/server.ts</code>)</h3>
+<ol>
+<li>Implement server factory:
+   <div class="highlight"><pre><span></span><code><span class="k">import</span><span class="w"> </span><span class="nx">express</span><span class="w"> </span><span class="kr">from</span><span class="w"> </span><span class="s1">'express'</span><span class="p">;</span>
+<span class="k">import</span><span class="w"> </span><span class="p">{</span><span class="w"> </span><span class="nx">createServer</span><span class="w"> </span><span class="p">}</span><span class="w"> </span><span class="kr">from</span><span class="w"> </span><span class="s1">'http'</span><span class="p">;</span>
+<span class="k">import</span><span class="w"> </span><span class="p">{</span><span class="w"> </span><span class="nx">Server</span><span class="w"> </span><span class="kr">as</span><span class="w"> </span><span class="nx">SocketIOServer</span><span class="w"> </span><span class="p">}</span><span class="w"> </span><span class="kr">from</span><span class="w"> </span><span class="s1">'socket.io'</span><span class="p">;</span>
+<span class="k">import</span><span class="w"> </span><span class="p">{</span><span class="w"> </span><span class="nx">loadConfig</span><span class="w"> </span><span class="p">}</span><span class="w"> </span><span class="kr">from</span><span class="w"> </span><span class="s1">'./config.js'</span><span class="p">;</span>
+<span class="k">import</span><span class="w"> </span><span class="p">{</span><span class="w"> </span><span class="nx">createHealthRouter</span><span class="w"> </span><span class="p">}</span><span class="w"> </span><span class="kr">from</span><span class="w"> </span><span class="s1">'./middleware/health.js'</span><span class="p">;</span>
+<span class="k">import</span><span class="w"> </span><span class="p">{</span><span class="w"> </span><span class="nx">createCorsMiddleware</span><span class="w"> </span><span class="p">}</span><span class="w"> </span><span class="kr">from</span><span class="w"> </span><span class="s1">'./middleware/cors.js'</span><span class="p">;</span>
+<span class="k">import</span><span class="w"> </span><span class="p">{</span><span class="w"> </span><span class="nx">registerSocketHandlers</span><span class="w"> </span><span class="p">}</span><span class="w"> </span><span class="kr">from</span><span class="w"> </span><span class="s1">'./socket/handlers.js'</span><span class="p">;</span>
+
+<span class="k">export</span><span class="w"> </span><span class="kd">function</span><span class="w"> </span><span class="nx">createApp</span><span class="p">()</span><span class="w"> </span><span class="p">{</span>
+<span class="w">  </span><span class="kd">const</span><span class="w"> </span><span class="nx">app</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nx">express</span><span class="p">();</span>
+<span class="w">  </span><span class="kd">const</span><span class="w"> </span><span class="nx">httpServer</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nx">createServer</span><span class="p">(</span><span class="nx">app</span><span class="p">);</span>
+<span class="w">  </span><span class="kd">const</span><span class="w"> </span><span class="nx">io</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="ow">new</span><span class="w"> </span><span class="nx">SocketIOServer</span><span class="p">(</span><span class="nx">httpServer</span><span class="p">,</span><span class="w"> </span><span class="p">{</span>
+<span class="w">    </span><span class="nx">cors</span><span class="o">:</span><span class="w"> </span><span class="p">{</span><span class="w"> </span><span class="nx">origin</span><span class="o">:</span><span class="w"> </span><span class="kt">loadConfig</span><span class="p">().</span><span class="nx">corsOrigin</span><span class="p">,</span><span class="w"> </span><span class="nx">methods</span><span class="o">:</span><span class="w"> </span><span class="p">[</span><span class="s1">'GET'</span><span class="p">,</span><span class="w"> </span><span class="s1">'POST'</span><span class="p">]</span><span class="w"> </span><span class="p">}</span>
+<span class="w">  </span><span class="p">});</span>
+
+<span class="w">  </span><span class="nx">app</span><span class="p">.</span><span class="nx">use</span><span class="p">(</span><span class="nx">createCorsMiddleware</span><span class="p">());</span>
+<span class="w">  </span><span class="nx">app</span><span class="p">.</span><span class="nx">use</span><span class="p">(</span><span class="s1">'/health'</span><span class="p">,</span><span class="w"> </span><span class="nx">createHealthRouter</span><span class="p">());</span>
+
+<span class="w">  </span><span class="nx">registerSocketHandlers</span><span class="p">(</span><span class="nx">io</span><span class="p">);</span>
+
+<span class="w">  </span><span class="k">return</span><span class="w"> </span><span class="p">{</span><span class="w"> </span><span class="nx">app</span><span class="p">,</span><span class="w"> </span><span class="nx">httpServer</span><span class="p">,</span><span class="w"> </span><span class="nx">io</span><span class="w"> </span><span class="p">};</span>
+<span class="p">}</span>
+
+<span class="k">export</span><span class="w"> </span><span class="k">async</span><span class="w"> </span><span class="kd">function</span><span class="w"> </span><span class="nx">startServer</span><span class="p">(</span><span class="nx">port?</span><span class="o">:</span><span class="w"> </span><span class="kt">number</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
+<span class="w">  </span><span class="kd">const</span><span class="w"> </span><span class="nx">config</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nx">loadConfig</span><span class="p">();</span>
+<span class="w">  </span><span class="kd">const</span><span class="w"> </span><span class="p">{</span><span class="w"> </span><span class="nx">httpServer</span><span class="p">,</span><span class="w"> </span><span class="nx">io</span><span class="w"> </span><span class="p">}</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nx">createApp</span><span class="p">();</span>
+<span class="w">  </span><span class="kd">const</span><span class="w"> </span><span class="nx">actualPort</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nx">port</span><span class="w"> </span><span class="o">??</span><span class="w"> </span><span class="nx">config</span><span class="p">.</span><span class="nx">port</span><span class="p">;</span>
+
+<span class="w">  </span><span class="k">return</span><span class="w"> </span><span class="ow">new</span><span class="w"> </span><span class="nb">Promise</span><span class="o">&lt;</span><span class="p">{</span><span class="w"> </span><span class="nx">httpServer</span><span class="p">;</span><span class="w"> </span><span class="nx">io</span><span class="p">;</span><span class="w"> </span><span class="nx">port</span><span class="o">:</span><span class="w"> </span><span class="kt">number</span><span class="w"> </span><span class="p">}</span><span class="o">&gt;</span><span class="p">((</span><span class="nx">resolve</span><span class="p">)</span><span class="w"> </span><span class="p">=&gt;</span><span class="w"> </span><span class="p">{</span>
+<span class="w">    </span><span class="nx">httpServer</span><span class="p">.</span><span class="nx">listen</span><span class="p">(</span><span class="nx">actualPort</span><span class="p">,</span><span class="w"> </span><span class="p">()</span><span class="w"> </span><span class="p">=&gt;</span><span class="w"> </span><span class="p">{</span>
+<span class="w">      </span><span class="nx">console</span><span class="p">.</span><span class="nx">log</span><span class="p">(</span><span class="sb">`🚀 Server listening on port </span><span class="si">${</span><span class="nx">actualPort</span><span class="si">}</span><span class="sb">`</span><span class="p">);</span>
+<span class="w">      </span><span class="nx">resolve</span><span class="p">({</span><span class="w"> </span><span class="nx">httpServer</span><span class="p">,</span><span class="w"> </span><span class="nx">io</span><span class="p">,</span><span class="w"> </span><span class="nx">port</span><span class="o">:</span><span class="w"> </span><span class="kt">actualPort</span><span class="w"> </span><span class="p">});</span>
+<span class="w">    </span><span class="p">});</span>
+<span class="w">  </span><span class="p">});</span>
+<span class="p">}</span>
+
+<span class="k">export</span><span class="w"> </span><span class="k">async</span><span class="w"> </span><span class="kd">function</span><span class="w"> </span><span class="nx">stopServer</span><span class="p">(</span><span class="nx">httpServer</span><span class="p">,</span><span class="w"> </span><span class="nx">io</span><span class="o">?</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
+<span class="w">  </span><span class="nx">io</span><span class="o">?</span><span class="p">.</span><span class="nx">close</span><span class="p">();</span>
+<span class="w">  </span><span class="k">await</span><span class="w"> </span><span class="ow">new</span><span class="w"> </span><span class="nb">Promise</span><span class="o">&lt;</span><span class="ow">void</span><span class="o">&gt;</span><span class="p">((</span><span class="nx">resolve</span><span class="p">)</span><span class="w"> </span><span class="p">=&gt;</span><span class="w"> </span><span class="nx">httpServer</span><span class="p">.</span><span class="nx">close</span><span class="p">(()</span><span class="w"> </span><span class="p">=&gt;</span><span class="w"> </span><span class="nx">resolve</span><span class="p">()));</span>
+<span class="p">}</span>
+</code></pre></div></li>
+</ol>
+<h3 id="phase-3-room-management-srcroomsts">Phase 3: Room Management (<code>src/rooms.ts</code>)</h3>
+<ol>
+<li>Implement in-memory room manager:
+   <div class="highlight"><pre><span></span><code><span class="k">export</span><span class="w"> </span><span class="kd">interface</span><span class="w"> </span><span class="nx">RoomState</span><span class="w"> </span><span class="p">{</span>
+<span class="w">  </span><span class="nx">id</span><span class="o">:</span><span class="w"> </span><span class="kt">string</span><span class="p">;</span>
+<span class="w">  </span><span class="nx">name</span><span class="o">:</span><span class="w"> </span><span class="kt">string</span><span class="p">;</span>
+<span class="w">  </span><span class="nx">players</span><span class="o">:</span><span class="w"> </span><span class="kt">PlayerInfo</span><span class="p">[];</span>
+<span class="w">  </span><span class="nx">status</span><span class="o">:</span><span class="w"> </span><span class="s1">'waiting'</span><span class="w"> </span><span class="o">|</span><span class="w"> </span><span class="s1">'playing'</span><span class="w"> </span><span class="o">|</span><span class="w"> </span><span class="s1">'closed'</span><span class="p">;</span>
+<span class="w">  </span><span class="nx">createdAt</span><span class="o">:</span><span class="w"> </span><span class="kt">Date</span><span class="p">;</span>
+<span class="p">}</span>
+
+<span class="kd">const</span><span class="w"> </span><span class="nx">rooms</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="ow">new</span><span class="w"> </span><span class="nb">Map</span><span class="o">&lt;</span><span class="kt">string</span><span class="p">,</span><span class="w"> </span><span class="nx">RoomState</span><span class="o">&gt;</span><span class="p">();</span>
+
+<span class="k">export</span><span class="w"> </span><span class="kd">function</span><span class="w"> </span><span class="nx">createRoom</span><span class="p">(</span><span class="nx">name?</span><span class="o">:</span><span class="w"> </span><span class="kt">string</span><span class="p">)</span><span class="o">:</span><span class="w"> </span><span class="nx">RoomState</span><span class="w"> </span><span class="p">{</span><span class="w"> </span><span class="cm">/* ... */</span><span class="w"> </span><span class="p">}</span>
+<span class="k">export</span><span class="w"> </span><span class="kd">function</span><span class="w"> </span><span class="nx">joinRoom</span><span class="p">(</span><span class="nx">roomId</span><span class="o">:</span><span class="w"> </span><span class="kt">string</span><span class="p">,</span><span class="w"> </span><span class="nx">player</span><span class="o">:</span><span class="w"> </span><span class="kt">PlayerInfo</span><span class="p">)</span><span class="o">:</span><span class="w"> </span><span class="nx">RoomState</span><span class="w"> </span><span class="p">{</span><span class="w"> </span><span class="cm">/* ... */</span><span class="w"> </span><span class="p">}</span>
+<span class="k">export</span><span class="w"> </span><span class="kd">function</span><span class="w"> </span><span class="nx">leaveRoom</span><span class="p">(</span><span class="nx">roomId</span><span class="o">:</span><span class="w"> </span><span class="kt">string</span><span class="p">,</span><span class="w"> </span><span class="nx">playerId</span><span class="o">:</span><span class="w"> </span><span class="kt">string</span><span class="p">)</span><span class="o">:</span><span class="w"> </span><span class="nx">RoomState</span><span class="w"> </span><span class="o">|</span><span class="w"> </span><span class="kc">null</span><span class="w"> </span><span class="p">{</span><span class="w"> </span><span class="cm">/* ... */</span><span class="w"> </span><span class="p">}</span>
+<span class="k">export</span><span class="w"> </span><span class="kd">function</span><span class="w"> </span><span class="nx">listRooms</span><span class="p">()</span><span class="o">:</span><span class="w"> </span><span class="nx">RoomState</span><span class="p">[]</span><span class="w"> </span><span class="p">{</span><span class="w"> </span><span class="cm">/* ... */</span><span class="w"> </span><span class="p">}</span>
+<span class="k">export</span><span class="w"> </span><span class="kd">function</span><span class="w"> </span><span class="nx">getRoom</span><span class="p">(</span><span class="nx">roomId</span><span class="o">:</span><span class="w"> </span><span class="kt">string</span><span class="p">)</span><span class="o">:</span><span class="w"> </span><span class="nx">RoomState</span><span class="w"> </span><span class="o">|</span><span class="w"> </span><span class="kc">undefined</span><span class="w"> </span><span class="p">{</span><span class="w"> </span><span class="cm">/* ... */</span><span class="w"> </span><span class="p">}</span>
+<span class="k">export</span><span class="w"> </span><span class="kd">function</span><span class="w"> </span><span class="nx">deleteRoom</span><span class="p">(</span><span class="nx">roomId</span><span class="o">:</span><span class="w"> </span><span class="kt">string</span><span class="p">)</span><span class="o">:</span><span class="w"> </span><span class="kt">boolean</span><span class="w"> </span><span class="p">{</span><span class="w"> </span><span class="cm">/* ... */</span><span class="w"> </span><span class="p">}</span>
+</code></pre></div></li>
+</ol>
+<h3 id="phase-4-socket-handlers-srcsockethandlersts">Phase 4: Socket Handlers (<code>src/socket/handlers.ts</code>)</h3>
+<ol>
+<li>Register Socket.io events:
+   <div class="highlight"><pre><span></span><code><span class="k">export</span><span class="w"> </span><span class="kd">function</span><span class="w"> </span><span class="nx">registerSocketHandlers</span><span class="p">(</span><span class="nx">io</span><span class="o">:</span><span class="w"> </span><span class="kt">SocketIOServer</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
+<span class="w">  </span><span class="nx">io</span><span class="p">.</span><span class="nx">on</span><span class="p">(</span><span class="s1">'connection'</span><span class="p">,</span><span class="w"> </span><span class="p">(</span><span class="nx">socket</span><span class="p">)</span><span class="w"> </span><span class="p">=&gt;</span><span class="w"> </span><span class="p">{</span>
+<span class="w">    </span><span class="nx">socket</span><span class="p">.</span><span class="nx">join</span><span class="p">(</span><span class="s1">'lobby'</span><span class="p">);</span>
+<span class="w">    </span><span class="nx">socket</span><span class="p">.</span><span class="nx">emit</span><span class="p">(</span><span class="s1">'room:list'</span><span class="p">,</span><span class="w"> </span><span class="nx">listRooms</span><span class="p">());</span>
+
+<span class="w">    </span><span class="nx">socket</span><span class="p">.</span><span class="nx">on</span><span class="p">(</span><span class="s1">'room:create'</span><span class="p">,</span><span class="w"> </span><span class="p">(</span><span class="nx">data</span><span class="p">,</span><span class="w"> </span><span class="nx">callback</span><span class="p">)</span><span class="w"> </span><span class="p">=&gt;</span><span class="w"> </span><span class="p">{</span>
+<span class="w">      </span><span class="kd">const</span><span class="w"> </span><span class="nx">room</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nx">createRoom</span><span class="p">(</span><span class="nx">data</span><span class="o">?</span><span class="p">.</span><span class="nx">name</span><span class="p">);</span>
+<span class="w">      </span><span class="nx">socket</span><span class="p">.</span><span class="nx">join</span><span class="p">(</span><span class="nx">room</span><span class="p">.</span><span class="nx">id</span><span class="p">);</span>
+<span class="w">      </span><span class="nx">socket</span><span class="p">.</span><span class="nx">to</span><span class="p">(</span><span class="s1">'lobby'</span><span class="p">).</span><span class="nx">emit</span><span class="p">(</span><span class="s1">'room:created'</span><span class="p">,</span><span class="w"> </span><span class="nx">room</span><span class="p">);</span>
+<span class="w">      </span><span class="nx">callback</span><span class="o">?</span><span class="p">.({</span><span class="w"> </span><span class="nx">success</span><span class="o">:</span><span class="w"> </span><span class="kt">true</span><span class="p">,</span><span class="w"> </span><span class="nx">room</span><span class="w"> </span><span class="p">});</span>
+<span class="w">    </span><span class="p">});</span>
+
+<span class="w">    </span><span class="nx">socket</span><span class="p">.</span><span class="nx">on</span><span class="p">(</span><span class="s1">'room:join'</span><span class="p">,</span><span class="w"> </span><span class="p">(</span><span class="nx">roomId</span><span class="p">,</span><span class="w"> </span><span class="nx">callback</span><span class="p">)</span><span class="w"> </span><span class="p">=&gt;</span><span class="w"> </span><span class="p">{</span>
+<span class="w">      </span><span class="kd">const</span><span class="w"> </span><span class="nx">room</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nx">joinRoom</span><span class="p">(</span><span class="nx">roomId</span><span class="p">,</span><span class="w"> </span><span class="p">{</span><span class="w"> </span><span class="nx">id</span><span class="o">:</span><span class="w"> </span><span class="kt">socket.id</span><span class="w"> </span><span class="p">});</span>
+<span class="w">      </span><span class="nx">socket</span><span class="p">.</span><span class="nx">join</span><span class="p">(</span><span class="nx">roomId</span><span class="p">);</span>
+<span class="w">      </span><span class="nx">socket</span><span class="p">.</span><span class="nx">to</span><span class="p">(</span><span class="nx">roomId</span><span class="p">).</span><span class="nx">emit</span><span class="p">(</span><span class="s1">'room:playerJoined'</span><span class="p">,</span><span class="w"> </span><span class="p">{</span><span class="w"> </span><span class="nx">playerId</span><span class="o">:</span><span class="w"> </span><span class="kt">socket.id</span><span class="w"> </span><span class="p">});</span>
+<span class="w">      </span><span class="nx">callback</span><span class="o">?</span><span class="p">.({</span><span class="w"> </span><span class="nx">success</span><span class="o">:</span><span class="w"> </span><span class="kt">true</span><span class="p">,</span><span class="w"> </span><span class="nx">room</span><span class="w"> </span><span class="p">});</span>
+<span class="w">    </span><span class="p">});</span>
+
+<span class="w">    </span><span class="nx">socket</span><span class="p">.</span><span class="nx">on</span><span class="p">(</span><span class="s1">'room:leave'</span><span class="p">,</span><span class="w"> </span><span class="p">(</span><span class="nx">roomId</span><span class="p">)</span><span class="w"> </span><span class="p">=&gt;</span><span class="w"> </span><span class="p">{</span>
+<span class="w">      </span><span class="nx">leaveRoom</span><span class="p">(</span><span class="nx">roomId</span><span class="p">,</span><span class="w"> </span><span class="nx">socket</span><span class="p">.</span><span class="nx">id</span><span class="p">);</span>
+<span class="w">      </span><span class="nx">socket</span><span class="p">.</span><span class="nx">leave</span><span class="p">(</span><span class="nx">roomId</span><span class="p">);</span>
+<span class="w">      </span><span class="nx">socket</span><span class="p">.</span><span class="nx">to</span><span class="p">(</span><span class="nx">roomId</span><span class="p">).</span><span class="nx">emit</span><span class="p">(</span><span class="s1">'room:playerLeft'</span><span class="p">,</span><span class="w"> </span><span class="p">{</span><span class="w"> </span><span class="nx">playerId</span><span class="o">:</span><span class="w"> </span><span class="kt">socket.id</span><span class="w"> </span><span class="p">});</span>
+<span class="w">    </span><span class="p">});</span>
+
+<span class="w">    </span><span class="nx">socket</span><span class="p">.</span><span class="nx">on</span><span class="p">(</span><span class="s1">'disconnect'</span><span class="p">,</span><span class="w"> </span><span class="p">()</span><span class="w"> </span><span class="p">=&gt;</span><span class="w"> </span><span class="p">{</span>
+<span class="w">      </span><span class="c1">// Clean up rooms where this socket was a player</span>
+<span class="w">    </span><span class="p">});</span>
+<span class="w">  </span><span class="p">});</span>
+<span class="p">}</span>
+</code></pre></div></li>
+</ol>
+<h3 id="phase-5-middleware">Phase 5: Middleware</h3>
+<ol>
+<li>
+<p><code>src/middleware/health.ts</code>:
+   </p><div class="highlight"><pre><span></span><code><span class="k">export</span><span class="w"> </span><span class="kd">function</span><span class="w"> </span><span class="nx">createHealthRouter</span><span class="p">()</span><span class="w"> </span><span class="p">{</span>
+<span class="w">  </span><span class="kd">const</span><span class="w"> </span><span class="nx">router</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nx">express</span><span class="p">.</span><span class="nx">Router</span><span class="p">();</span>
+<span class="w">  </span><span class="nx">router</span><span class="p">.</span><span class="nx">get</span><span class="p">(</span><span class="s1">'/'</span><span class="p">,</span><span class="w"> </span><span class="p">(</span><span class="nx">_req</span><span class="p">,</span><span class="w"> </span><span class="nx">res</span><span class="p">)</span><span class="w"> </span><span class="p">=&gt;</span><span class="w"> </span><span class="p">{</span>
+<span class="w">    </span><span class="nx">res</span><span class="p">.</span><span class="nx">json</span><span class="p">({</span><span class="w"> </span><span class="nx">status</span><span class="o">:</span><span class="w"> </span><span class="s1">'ok'</span><span class="p">,</span><span class="w"> </span><span class="nx">uptime</span><span class="o">:</span><span class="w"> </span><span class="kt">process.uptime</span><span class="p">()</span><span class="w"> </span><span class="p">});</span>
+<span class="w">  </span><span class="p">});</span>
+<span class="w">  </span><span class="k">return</span><span class="w"> </span><span class="nx">router</span><span class="p">;</span>
+<span class="p">}</span>
+</code></pre></div><p></p>
+</li>
+<li>
+<p><code>src/middleware/cors.ts</code>:
+   </p><div class="highlight"><pre><span></span><code><span class="k">export</span><span class="w"> </span><span class="kd">function</span><span class="w"> </span><span class="nx">createCorsMiddleware</span><span class="p">()</span><span class="w"> </span><span class="p">{</span>
+<span class="w">  </span><span class="k">return</span><span class="w"> </span><span class="p">(</span><span class="nx">req</span><span class="p">,</span><span class="w"> </span><span class="nx">res</span><span class="p">,</span><span class="w"> </span><span class="nx">next</span><span class="p">)</span><span class="w"> </span><span class="p">=&gt;</span><span class="w"> </span><span class="p">{</span>
+<span class="w">    </span><span class="nx">res</span><span class="p">.</span><span class="nx">header</span><span class="p">(</span><span class="s1">'Access-Control-Allow-Origin'</span><span class="p">,</span><span class="w"> </span><span class="nx">loadConfig</span><span class="p">().</span><span class="nx">corsOrigin</span><span class="p">);</span>
+<span class="w">    </span><span class="nx">res</span><span class="p">.</span><span class="nx">header</span><span class="p">(</span><span class="s1">'Access-Control-Allow-Methods'</span><span class="p">,</span><span class="w"> </span><span class="s1">'GET, POST'</span><span class="p">);</span>
+<span class="w">    </span><span class="nx">res</span><span class="p">.</span><span class="nx">header</span><span class="p">(</span><span class="s1">'Access-Control-Allow-Headers'</span><span class="p">,</span><span class="w"> </span><span class="s1">'Content-Type'</span><span class="p">);</span>
+<span class="w">    </span><span class="nx">next</span><span class="p">();</span>
+<span class="w">  </span><span class="p">};</span>
+<span class="p">}</span>
+</code></pre></div><p></p>
+</li>
+</ol>
+<h3 id="phase-6-types-config">Phase 6: Types &amp; Config</h3>
+<ol>
+<li>
+<p><code>src/types.ts</code>:
+   </p><div class="highlight"><pre><span></span><code><span class="k">export</span><span class="w"> </span><span class="kd">interface</span><span class="w"> </span><span class="nx">ServerConfig</span><span class="w"> </span><span class="p">{</span>
+<span class="w">  </span><span class="nx">port</span><span class="o">:</span><span class="w"> </span><span class="kt">number</span><span class="p">;</span>
+<span class="w">  </span><span class="nx">corsOrigin</span><span class="o">:</span><span class="w"> </span><span class="kt">string</span><span class="p">;</span>
+<span class="w">  </span><span class="nx">nodeEnv</span><span class="o">:</span><span class="w"> </span><span class="kt">string</span><span class="p">;</span>
+<span class="p">}</span>
+
+<span class="k">export</span><span class="w"> </span><span class="kd">interface</span><span class="w"> </span><span class="nx">PlayerInfo</span><span class="w"> </span><span class="p">{</span>
+<span class="w">  </span><span class="nx">id</span><span class="o">:</span><span class="w"> </span><span class="kt">string</span><span class="p">;</span>
+<span class="w">  </span><span class="nx">name?</span><span class="o">:</span><span class="w"> </span><span class="kt">string</span><span class="p">;</span>
+<span class="w">  </span><span class="nx">avatar?</span><span class="o">:</span><span class="w"> </span><span class="kt">string</span><span class="p">;</span>
+<span class="p">}</span>
+
+<span class="k">export</span><span class="w"> </span><span class="kd">interface</span><span class="w"> </span><span class="nx">SocketEvents</span><span class="w"> </span><span class="p">{</span>
+<span class="w">  </span><span class="s1">'room:list'</span><span class="o">:</span><span class="w"> </span><span class="p">(</span><span class="nx">rooms</span><span class="o">:</span><span class="w"> </span><span class="kt">RoomState</span><span class="p">[])</span><span class="w"> </span><span class="p">=&gt;</span><span class="w"> </span><span class="ow">void</span><span class="p">;</span>
+<span class="w">  </span><span class="s1">'room:create'</span><span class="o">:</span><span class="w"> </span><span class="p">(</span><span class="nx">data</span><span class="o">:</span><span class="w"> </span><span class="p">{</span><span class="w"> </span><span class="nx">name?</span><span class="o">:</span><span class="w"> </span><span class="kt">string</span><span class="w"> </span><span class="p">})</span><span class="w"> </span><span class="p">=&gt;</span><span class="w"> </span><span class="ow">void</span><span class="p">;</span>
+<span class="w">  </span><span class="s1">'room:join'</span><span class="o">:</span><span class="w"> </span><span class="p">(</span><span class="nx">roomId</span><span class="o">:</span><span class="w"> </span><span class="kt">string</span><span class="p">)</span><span class="w"> </span><span class="p">=&gt;</span><span class="w"> </span><span class="ow">void</span><span class="p">;</span>
+<span class="w">  </span><span class="s1">'room:leave'</span><span class="o">:</span><span class="w"> </span><span class="p">(</span><span class="nx">roomId</span><span class="o">:</span><span class="w"> </span><span class="kt">string</span><span class="p">)</span><span class="w"> </span><span class="p">=&gt;</span><span class="w"> </span><span class="ow">void</span><span class="p">;</span>
+<span class="w">  </span><span class="s1">'room:created'</span><span class="o">:</span><span class="w"> </span><span class="p">(</span><span class="nx">room</span><span class="o">:</span><span class="w"> </span><span class="kt">RoomState</span><span class="p">)</span><span class="w"> </span><span class="p">=&gt;</span><span class="w"> </span><span class="ow">void</span><span class="p">;</span>
+<span class="w">  </span><span class="s1">'room:updated'</span><span class="o">:</span><span class="w"> </span><span class="p">(</span><span class="nx">room</span><span class="o">:</span><span class="w"> </span><span class="kt">RoomState</span><span class="p">)</span><span class="w"> </span><span class="p">=&gt;</span><span class="w"> </span><span class="ow">void</span><span class="p">;</span>
+<span class="w">  </span><span class="s1">'room:playerJoined'</span><span class="o">:</span><span class="w"> </span><span class="p">(</span><span class="nx">data</span><span class="o">:</span><span class="w"> </span><span class="p">{</span><span class="w"> </span><span class="nx">playerId</span><span class="o">:</span><span class="w"> </span><span class="kt">string</span><span class="w"> </span><span class="p">})</span><span class="w"> </span><span class="p">=&gt;</span><span class="w"> </span><span class="ow">void</span><span class="p">;</span>
+<span class="w">  </span><span class="s1">'room:playerLeft'</span><span class="o">:</span><span class="w"> </span><span class="p">(</span><span class="nx">data</span><span class="o">:</span><span class="w"> </span><span class="p">{</span><span class="w"> </span><span class="nx">playerId</span><span class="o">:</span><span class="w"> </span><span class="kt">string</span><span class="w"> </span><span class="p">})</span><span class="w"> </span><span class="p">=&gt;</span><span class="w"> </span><span class="ow">void</span><span class="p">;</span>
+<span class="p">}</span>
+</code></pre></div><p></p>
+</li>
+<li>
+<p><code>src/config.ts</code>:
+    </p><div class="highlight"><pre><span></span><code><span class="k">export</span><span class="w"> </span><span class="kd">function</span><span class="w"> </span><span class="nx">loadConfig</span><span class="p">()</span><span class="o">:</span><span class="w"> </span><span class="nx">ServerConfig</span><span class="w"> </span><span class="p">{</span>
+<span class="w">  </span><span class="k">return</span><span class="w"> </span><span class="p">{</span>
+<span class="w">    </span><span class="nx">port</span><span class="o">:</span><span class="w"> </span><span class="kt">parseInt</span><span class="p">(</span><span class="nx">process</span><span class="p">.</span><span class="nx">env</span><span class="p">.</span><span class="nx">PORT</span><span class="w"> </span><span class="o">??</span><span class="w"> </span><span class="s1">'3001'</span><span class="p">,</span><span class="w"> </span><span class="mf">10</span><span class="p">),</span>
+<span class="w">    </span><span class="nx">corsOrigin</span><span class="o">:</span><span class="w"> </span><span class="kt">process.env.CORS_ORIGIN</span><span class="w"> </span><span class="o">??</span><span class="w"> </span><span class="s1">'http://localhost:5173'</span><span class="p">,</span>
+<span class="w">    </span><span class="nx">nodeEnv</span><span class="o">:</span><span class="w"> </span><span class="kt">process.env.NODE_ENV</span><span class="w"> </span><span class="o">??</span><span class="w"> </span><span class="s1">'development'</span><span class="p">,</span>
+<span class="w">  </span><span class="p">};</span>
+<span class="p">}</span>
+</code></pre></div><p></p>
+</li>
+</ol>
+<h3 id="phase-7-containerization">Phase 7: Containerization</h3>
+<ol>
+<li>Create <code>server/Dockerfile</code>:
+    <div class="highlight"><pre><span></span><code><span class="c"># Build stage</span>
+<span class="k">FROM</span><span class="w"> </span><span class="s">node:20-alpine</span><span class="w"> </span><span class="k">AS</span><span class="w"> </span><span class="s">builder</span>
+<span class="k">WORKDIR</span><span class="w"> </span><span class="s">/app</span>
+<span class="k">COPY</span><span class="w"> </span>package*.json<span class="w"> </span>./
+<span class="k">RUN</span><span class="w"> </span>npm<span class="w"> </span>ci
+<span class="k">COPY</span><span class="w"> </span>.<span class="w"> </span>.
+<span class="k">RUN</span><span class="w"> </span>npm<span class="w"> </span>run<span class="w"> </span>build
+
+<span class="c"># Production stage</span>
+<span class="k">FROM</span><span class="w"> </span><span class="s">node:20-alpine</span>
+<span class="k">WORKDIR</span><span class="w"> </span><span class="s">/app</span>
+<span class="k">COPY</span><span class="w"> </span>--from<span class="o">=</span>builder<span class="w"> </span>/app/dist<span class="w"> </span>./dist
+<span class="k">COPY</span><span class="w"> </span>--from<span class="o">=</span>builder<span class="w"> </span>/app/package*.json<span class="w"> </span>./
+<span class="k">RUN</span><span class="w"> </span>npm<span class="w"> </span>ci<span class="w"> </span>--omit<span class="o">=</span>dev
+<span class="k">ENV</span><span class="w"> </span><span class="nv">NODE_ENV</span><span class="o">=</span>production
+<span class="k">EXPOSE</span><span class="w"> </span><span class="s">3001</span>
+<span class="k">CMD</span><span class="w"> </span><span class="p">[</span><span class="s2">"node"</span><span class="p">,</span><span class="w"> </span><span class="s2">"dist/server.js"</span><span class="p">]</span>
+</code></pre></div></li>
+</ol>
+<h3 id="phase-8-integration">Phase 8: Integration</h3>
+<ol>
+<li>
+<p>Update root <code>package.json</code>:
+    </p><div class="highlight"><pre><span></span><code><span class="nt">"scripts"</span><span class="p">:</span><span class="w"> </span><span class="p">{</span>
+<span class="w">  </span><span class="nt">"dev"</span><span class="p">:</span><span class="w"> </span><span class="s2">"vite"</span><span class="p">,</span>
+<span class="w">  </span><span class="nt">"dev:server"</span><span class="p">:</span><span class="w"> </span><span class="s2">"cd server &amp;&amp; npm run dev"</span><span class="p">,</span>
+<span class="w">  </span><span class="nt">"build"</span><span class="p">:</span><span class="w"> </span><span class="s2">"tsc &amp;&amp; vite build"</span><span class="p">,</span>
+<span class="w">  </span><span class="nt">"build:server"</span><span class="p">:</span><span class="w"> </span><span class="s2">"cd server &amp;&amp; npm run build"</span><span class="p">,</span>
+<span class="w">  </span><span class="nt">"preview"</span><span class="p">:</span><span class="w"> </span><span class="s2">"vite preview"</span><span class="p">,</span>
+<span class="w">  </span><span class="nt">"test"</span><span class="p">:</span><span class="w"> </span><span class="s2">"vitest run"</span>
+<span class="p">}</span>
+</code></pre></div><p></p>
+</li>
+<li>
+<p>Remove old stubs:</p>
+<ul>
+<li>Delete <code>server/src/websocket.js</code></li>
+<li>Delete <code>server/src/connection.js</code></li>
+<li>Delete <code>server/src/index.js</code></li>
+</ul>
+</li>
+<li>
+<p>Run <code>cd server &amp;&amp; npm install</code> to fetch new dependencies.</p>
+</li>
+</ol>
+<h2 id="test-strategy">Test Strategy</h2>
+<h3 id="unit-tests-new-serversrctestts">Unit Tests (new — <code>server/src/**/*.test.ts</code>)</h3>
+<ul>
+<li><strong><code>server.test.ts</code></strong>: Server factory creates Express app + Socket.io; start/stop lifecycle; port binding</li>
+<li><strong><code>rooms.test.ts</code></strong>: createRoom generates unique IDs; joinRoom adds player; leaveRoom removes player; listRooms filters active; empty room auto-deletes</li>
+<li><strong><code>handlers.test.ts</code></strong>: Socket.io client connects; receives room list; can create room; can join room; receives broadcast on player join; disconnect cleans up</li>
+<li><strong><code>config.test.ts</code></strong>: loadConfig returns defaults when env vars missing; parses PORT as number; loads from process.env</li>
+<li><strong><code>health.test.ts</code></strong>: GET /health returns <code>{ status: 'ok', uptime: number }</code></li>
+</ul>
+<h3 id="integration-tests">Integration Tests</h3>
+<ul>
+<li>Full client → server → Socket.io round-trip using <code>socket.io-client</code></li>
+<li>Room creation flow: client connects → creates room → second client joins → both receive updates</li>
+<li>Disconnect cleanup: client in room disconnects → room removed if empty</li>
+</ul>
+<h3 id="edge-cases">Edge Cases</h3>
+<ul>
+<li>Port already in use → should throw with clear error</li>
+<li>Invalid CORS origin → should still allow configured origin</li>
+<li>Rapid create/join/leave → room state remains consistent</li>
+<li>Socket reconnect → rejoins lobby, receives fresh room list</li>
+</ul>
+<h2 id="architecture">Architecture</h2>
+<p><a class="glightbox" data-type="image" data-width="auto" data-height="auto" href="../issue-2-architecture.png" data-desc-position="bottom"><img alt="Server Architecture" src="../issue-2-architecture.png"></a></p>
+<h2 id="connection-flow">Connection Flow</h2>
+<p><a class="glightbox" data-type="image" data-width="auto" data-height="auto" href="../issue-2-flow.png" data-desc-position="bottom"><img alt="Connection Lifecycle" src="../issue-2-flow.png"></a></p>
+<h2 id="risks-mitigations">Risks &amp; Mitigations</h2>
+<table>
+<thead>
+<tr>
+<th>Risk</th>
+<th>Mitigation</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Plain <code>ws</code> → Socket.io migration breaks existing tests</td>
+<td>The existing stubs have no tests; this is a greenfield rewrite of the server directory</td>
+</tr>
+<tr>
+<td>Socket.io version compatibility with client</td>
+<td>Pin both <code>socket.io</code> and <code>socket.io-client</code> to same major version (<code>^4.7</code>)</td>
+</tr>
+<tr>
+<td>In-memory rooms lost on server restart</td>
+<td>Acceptable for MVP; document Redis migration path in code comments</td>
+</tr>
+<tr>
+<td>CORS blocking client in dev</td>
+<td>Default <code>CORS_ORIGIN=http://localhost:5173</code> matches Vite default; document override</td>
+</tr>
+<tr>
+<td>TypeScript ESM + NodeNext resolution quirks</td>
+<td>Use <code>.js</code> extensions in imports (NodeNext requirement); test with <code>tsx</code> in dev and compiled output in CI</td>
+</tr>
+<tr>
+<td>Docker build slow due to <code>npm ci</code></td>
+<td>Use <code>--mount=type=cache</code> or lock <code>package-lock.json</code> to minimize rebuilds</td>
+</tr>
+<tr>
+<td>Port conflict with other services</td>
+<td>Default to <code>3001</code> (Vite uses <code>5173</code>); make PORT fully configurable via env</td>
+</tr>
+</tbody>
+</table>
+
+
+
+
+
+
+
+
+
+
+
+
+                
+              </article>
+            </div>
+          
+          
+<script>var target=document.getElementById(location.hash.slice(1));target&&target.name&&(target.checked=target.name.startsWith("__tabbed_"))</script>
+        </div>
+        
+      </main>
+      
+        <footer class="md-footer">
+  
+  <div class="md-footer-meta md-typeset">
+    <div class="md-footer-meta__inner md-grid">
+      <div class="md-copyright">
+  
+  
+    Made with
+    <a href="https://squidfunk.github.io/mkdocs-material/" target="_blank" rel="noopener">
+      Material for MkDocs
+    </a>
+  
+</div>
+      
+    </div>
+  </div>
+</footer>
+      
+    </div>
+    <div class="md-dialog" data-md-component="dialog">
+      <div class="md-dialog__inner md-typeset"></div>
+    </div>
+    
+    
+    
+      
+      
+      <script id="__config" type="application/json">{"annotate": null, "base": "../..", "features": ["navigation.instant", "navigation.sections", "content.code.copy"], "search": "../../assets/javascripts/workers/search.2c215733.min.js", "tags": null, "translations": {"clipboard.copied": "Copied to clipboard", "clipboard.copy": "Copy to clipboard", "search.result.more.one": "1 more on this page", "search.result.more.other": "# more on this page", "search.result.none": "No matching documents", "search.result.one": "1 matching document", "search.result.other": "# matching documents", "search.result.placeholder": "Type to start searching", "search.result.term.missing": "Missing", "select.version": "Select version"}, "version": null}</script>
+    
+    
+      <script src="../../assets/javascripts/bundle.79ae519e.min.js"></script>
+      
+    
+  
+<script id="init-glightbox">const lightbox = GLightbox({"touchNavigation": true, "loop": false, "zoomable": true, "draggable": true, "openEffect": "zoom", "closeEffect": "zoom", "slideEffect": "slide"});
+document$.subscribe(()=>{ lightbox.reload(); });
+</script></body></html>

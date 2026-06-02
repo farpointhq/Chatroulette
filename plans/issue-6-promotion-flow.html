@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="UTF-8">
+  <link rel="stylesheet" href="../stylesheets/extra.css">
+  <style>
+    body { background: #0f0f0f; margin: 0; padding: 24px; font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif; }
+  </style>
+</head>
+<body>
+  <div class="diagram">
+    <div class="diagram-title" style="font-size: 18px; font-weight: 600; margin-bottom: 20px; color: #e5e5e5;">Pawn Promotion UI Flow</div>
+
+    <div class="diagram-box main">
+      <div class="diagram-box-title">USER DRAGS PAWN TO 8TH RANK</div>
+      <div class="diagram-steps">
+        <div class="diagram-step">
+          <span class="diagram-step-num">1</span>
+          <span class="diagram-step-text"><code class="diagram-step-code">onPieceDrop(source, target, piece)</code> fires</span>
+        </div>
+        <div class="diagram-connector"></div>
+        <div class="diagram-step">
+          <span class="diagram-step-num">2</span>
+          <span class="diagram-step-text">Detect: <code class="diagram-step-code">piece.endsWith('P') && target[1] === '8'|'1'</code></span>
+        </div>
+      </div>
+    </div>
+
+    <div class="diagram-branch">
+      <div class="diagram-branch-box yes">
+        <div class="diagram-branch-title">✓ IS PROMOTION</div>
+        <div class="diagram-branch-text">
+          <div class="diagram-step" style="margin-bottom: 8px;"><span class="diagram-step-text">Set <code class="diagram-step-code">pendingPromotion = { from, to }</code></span></div>
+          <div class="diagram-step" style="margin-bottom: 8px;"><span class="diagram-step-text">Render promotion dialog overlay</span></div>
+          <div class="diagram-step"><span class="diagram-step-text">User clicks Q/R/B/N → <code class="diagram-step-code">chess.move({ from, to, promotion })</code></span></div>
+        </div>
+      </div>
+      <div class="diagram-branch-box no">
+        <div class="diagram-branch-title">✗ NORMAL MOVE</div>
+        <div class="diagram-branch-text">
+          <div class="diagram-step"><span class="diagram-step-text">Execute <code class="diagram-step-code">chess.move({ from, to })</code> immediately</span></div>
+        </div>
+      </div>
+    </div>
+
+    <div style="text-align: center; margin: 16px 0;">
+      <div style="display: inline-block; width: 2px; height: 20px; background: linear-gradient(to bottom, #4338ca, #16a34a);"></div>
+    </div>
+
+    <div class="diagram-box renderer">
+      <div class="diagram-box-title">RESULT</div>
+      <div class="diagram-steps">
+        <div class="diagram-step">
+          <span class="diagram-step-num">✓</span>
+          <span class="diagram-step-text">Board re-renders with updated FEN (new piece on promotion square)</span>
+        </div>
+      </div>
+    </div>
+  </div>
+</body>
+</html>

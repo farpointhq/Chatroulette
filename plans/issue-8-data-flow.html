@@ -1,0 +1,56 @@
+<link rel="stylesheet" href="../stylesheets/extra.css">
+<div class="diagram">
+  <div class="diagram-title">Component Data Flow</div>
+  <div class="diagram-box main">
+    <div class="diagram-box-title">APP (State Container)</div>
+    <div class="diagram-steps">
+      <div class="diagram-step">
+        <span class="diagram-step-num">1</span>
+        <span class="diagram-step-text"><code class="diagram-step-code">useState</code> manages: <code class="diagram-step-code">status</code>, <code class="diagram-step-code">nickname</code>, <code class="diagram-step-code">onlinePlayers</code>, <code class="diagram-step-code">matchFound</code>, <code class="diagram-step-code">errorMessage</code></span>
+      </div>
+      <div class="diagram-connector"></div>
+      <div class="diagram-step">
+        <span class="diagram-step-num">2</span>
+        <span class="diagram-step-text">Callbacks: <code class="diagram-step-code">onFindMatch</code>, <code class="diagram-step-code">onCancelSearch</code>, <code class="diagram-step-code">onAcceptMatch</code>, <code class="diagram-step-code">onDeclineMatch</code>, <code class="diagram-step-code">onRetry</code></span>
+      </div>
+    </div>
+  </div>
+  <div class="diagram-ipc">
+    <div class="diagram-ipc-inner">
+      <div class="diagram-ipc-line"></div>
+      <div class="diagram-ipc-label">Props down, Events up</div>
+      <div class="diagram-ipc-arrow"></div>
+    </div>
+  </div>
+  <div class="diagram-box renderer">
+    <div class="diagram-box-title">LOBBY COMPONENT</div>
+    <div class="diagram-steps">
+      <div class="diagram-step">
+        <span class="diagram-step-num">1</span>
+        <span class="diagram-step-text">Receives all props from App</span>
+      </div>
+      <div class="diagram-connector"></div>
+      <div class="diagram-step">
+        <span class="diagram-step-num">2</span>
+        <span class="diagram-step-text">Switches on <code class="diagram-step-code">status</code> to render sub-component:</span>
+      </div>
+      <div class="diagram-connector"></div>
+      <div class="diagram-step">
+        <span class="diagram-step-num">•</span>
+        <span class="diagram-step-text"><code class="diagram-step-code">idle</code> → <strong>LandingPage</strong> (nickname, online count, Find Match)</span>
+      </div>
+      <div class="diagram-step">
+        <span class="diagram-step-num">•</span>
+        <span class="diagram-step-text"><code class="diagram-step-code">searching</code> → <strong>MatchmakingQueue</strong> (spinner, cancel, wait time)</span>
+      </div>
+      <div class="diagram-step">
+        <span class="diagram-step-num">•</span>
+        <span class="diagram-step-text"><code class="diagram-step-code">match-found</code> → <strong>OpponentFound</strong> (opponent, color, countdown, accept/decline)</span>
+      </div>
+      <div class="diagram-step">
+        <span class="diagram-step-num">•</span>
+        <span class="diagram-step-text"><code class="diagram-step-code">error</code> → <strong>ConnectionError</strong> overlay (message, retry)</span>
+      </div>
+    </div>
+  </div>
+</div>

@@ -1,0 +1,68 @@
+<link rel="stylesheet" href="../stylesheets/extra.css">
+<div class="diagram">
+  <div class="diagram-title">Component Architecture: ChessBoard</div>
+
+  <div class="diagram-box main">
+    <div class="diagram-box-title">ChessBoard.tsx</div>
+    <div class="diagram-steps">
+      <div class="diagram-step">
+        <span class="diagram-step-num">1</span>
+        <span class="diagram-step-text">Receive <code class="diagram-step-code">gameState</code> prop → convert to FEN</span>
+      </div>
+      <div class="diagram-connector"></div>
+      <div class="diagram-step">
+        <span class="diagram-step-num">2</span>
+        <span class="diagram-step-text">Render <code class="diagram-step-code">react-chessboard</code> with position, orientation, styles</span>
+      </div>
+      <div class="diagram-connector"></div>
+      <div class="diagram-step">
+        <span class="diagram-step-num">3</span>
+        <span class="diagram-step-text">Handle <code class="diagram-step-code">onPieceDrop</code> → validate via chess.js → call <code class="diagram-step-code">onMove</code></span>
+      </div>
+      <div class="diagram-connector"></div>
+      <div class="diagram-step">
+        <span class="diagram-step-num">4</span>
+        <span class="diagram-step-text">Apply custom square styles for legal moves, last move, check</span>
+      </div>
+    </div>
+  </div>
+
+  <div class="diagram-ipc">
+    <div class="diagram-ipc-inner">
+      <div class="diagram-ipc-line"></div>
+      <div class="diagram-ipc-label">Props &amp; Callbacks</div>
+      <div class="diagram-ipc-arrow"></div>
+    </div>
+  </div>
+
+  <div class="diagram-box renderer">
+    <div class="diagram-box-title">react-chessboard</div>
+    <div class="diagram-steps">
+      <div class="diagram-step">
+        <span class="diagram-step-num">A</span>
+        <span class="diagram-step-text">Renders 8×8 SVG board with pieces</span>
+      </div>
+      <div class="diagram-connector"></div>
+      <div class="diagram-step">
+        <span class="diagram-step-num">B</span>
+        <span class="diagram-step-text">Handles drag-and-drop animations</span>
+      </div>
+      <div class="diagram-connector"></div>
+      <div class="diagram-step">
+        <span class="diagram-step-num">C</span>
+        <span class="diagram-step-text">Applies custom square highlights</span>
+      </div>
+    </div>
+  </div>
+
+  <div class="diagram-branch">
+    <div class="diagram-branch-box yes">
+      <div class="diagram-branch-title">✓ VALID MOVE</div>
+      <div class="diagram-branch-text">Call <code class="diagram-step-code">onMove(move)</code> → parent updates <code class="diagram-step-code">gameState</code></div>
+    </div>
+    <div class="diagram-branch-box no">
+      <div class="diagram-branch-title">✗ INVALID MOVE</div>
+      <div class="diagram-branch-text">Return <code class="diagram-step-code">false</code> → piece snaps back</div>
+    </div>
+  </div>
+</div>

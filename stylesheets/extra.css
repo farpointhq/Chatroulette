@@ -1,0 +1,81 @@
+/* Glightbox dark background for zoomed images */
+.glightbox-container .gslide-image img {
+  background-color: #1a1a1a !important;
+  border-radius: 8px;
+  padding: 16px;
+}
+
+/* Glow effect on the lightbox overlay */
+.glightbox-container .goverlay {
+  background: radial-gradient(ellipse at center, rgba(75, 0, 130, 0.3) 0%, rgba(26, 26, 26, 0.95) 70%) !important;
+}
+
+/* Make images on the page have a subtle glow on hover */
+.md-content img {
+  transition: box-shadow 0.3s ease, transform 0.2s ease;
+  border-radius: 8px;
+  cursor: zoom-in;
+}
+
+.md-content img:hover {
+  box-shadow: 0 0 20px rgba(128, 90, 213, 0.4), 0 0 40px rgba(128, 90, 213, 0.2);
+  transform: scale(1.01);
+}
+
+/* Better styling for Mermaid diagrams specifically */
+.md-content img[src*="architecture"],
+.md-content img[src*="flow"],
+.md-content img[src*="mockup"] {
+  max-width: 100%;
+  height: auto;
+}
+
+/* ============================================================================
+   DIAGRAM COMPONENT LIBRARY
+   Reusable classes for HTML diagrams - saves ~1000 tokens per diagram
+   ============================================================================ */
+
+/* Container */
+.diagram { font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif; background: #0f0f0f; padding: 24px; border-radius: 12px; color: #e5e5e5; }
+
+/* Process boxes */
+.diagram-box { border-radius: 8px; padding: 20px; margin-bottom: 16px; }
+.diagram-box.main { background: linear-gradient(135deg, #1e1b4b 0%, #312e81 100%); border: 1px solid #4338ca; }
+.diagram-box.renderer { background: linear-gradient(135deg, #14532d 0%, #166534 100%); border: 1px solid #16a34a; }
+.diagram-box-title { font-size: 11px; font-weight: 600; letter-spacing: 1px; margin-bottom: 16px; }
+.diagram-box.main .diagram-box-title { color: #a5b4fc; }
+.diagram-box.renderer .diagram-box-title { color: #86efac; }
+
+/* Steps */
+.diagram-steps { display: flex; flex-direction: column; gap: 12px; }
+.diagram-step { display: flex; align-items: center; gap: 12px; }
+.diagram-step-num { width: 24px; height: 24px; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-size: 12px; font-weight: 600; color: white; flex-shrink: 0; }
+.diagram-box.main .diagram-step-num { background: #4338ca; }
+.diagram-box.renderer .diagram-step-num { background: #16a34a; }
+.diagram-step-text { color: #e0e7ff; }
+.diagram-box.renderer .diagram-step-text { color: #dcfce7; }
+.diagram-step-code { background: rgba(0,0,0,0.3); padding: 2px 6px; border-radius: 4px; font-size: 12px; font-family: monospace; }
+
+/* Connector line */
+.diagram-connector { margin-left: 11px; border-left: 2px solid; height: 8px; }
+.diagram-box.main .diagram-connector { border-color: #4338ca; }
+.diagram-box.renderer .diagram-connector { border-color: #16a34a; }
+
+/* IPC arrow */
+.diagram-ipc { display: flex; justify-content: center; margin: 8px 0; }
+.diagram-ipc-inner { display: flex; flex-direction: column; align-items: center; }
+.diagram-ipc-line { width: 2px; height: 20px; background: linear-gradient(to bottom, #4338ca, #16a34a); }
+.diagram-ipc-label { background: #1f2937; border: 1px solid #374151; padding: 4px 12px; border-radius: 4px; font-size: 11px; color: #9ca3af; }
+.diagram-ipc-arrow { width: 0; height: 0; border-left: 6px solid transparent; border-right: 6px solid transparent; border-top: 8px solid #16a34a; }
+
+/* Branch boxes */
+.diagram-branch { display: flex; gap: 16px; margin-left: 36px; margin-top: 8px; }
+.diagram-branch-box { flex: 1; border-radius: 6px; padding: 12px; }
+.diagram-branch-box.yes { background: #052e16; border: 1px solid #16a34a; }
+.diagram-branch-box.no { background: #450a0a; border: 1px solid #dc2626; }
+.diagram-branch-title { font-size: 11px; font-weight: 600; margin-bottom: 8px; }
+.diagram-branch-box.yes .diagram-branch-title { color: #4ade80; }
+.diagram-branch-box.no .diagram-branch-title { color: #f87171; }
+.diagram-branch-text { font-size: 13px; }
+.diagram-branch-box.yes .diagram-branch-text { color: #bbf7d0; }
+.diagram-branch-box.no .diagram-branch-text { color: #fecaca; }

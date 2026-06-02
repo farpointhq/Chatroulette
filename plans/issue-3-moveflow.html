@@ -1,0 +1,101 @@
+<link rel="stylesheet" href="../stylesheets/extra.css">
+<div class="diagram">
+  <div class="diagram-title">Move Validation & Execution Flow</div>
+
+  <div class="diagram-box main">
+    <div class="diagram-box-title">MOVE LIFECYCLE</div>
+    <div class="diagram-steps">
+      <div class="diagram-step">
+        <span class="diagram-step-num">1</span>
+        <span class="diagram-step-text">User drags piece from <code class="diagram-step-code">e2</code> to <code class="diagram-step-code">e4</code></span>
+      </div>
+      <div class="diagram-connector"></div>
+      <div class="diagram-step">
+        <span class="diagram-step-num">2</span>
+        <span class="diagram-step-text"><strong>ChessBoard.tsx</strong> calls <code class="diagram-step-code">onMove({ from: 'e2', to: 'e4' })</code></span>
+      </div>
+      <div class="diagram-connector"></div>
+      <div class="diagram-step">
+        <span class="diagram-step-num">3</span>
+        <span class="diagram-step-text"><strong>Game hook</strong> calls <code class="diagram-step-code">engine.move('e4')</code> or <code class="diagram-step-code">canMakeMove(game, 'e2', 'e4')</code></span>
+      </div>
+      <div class="diagram-connector"></div>
+      <div class="diagram-step">
+        <span class="diagram-step-num">4</span>
+        <span class="diagram-step-text"><strong>ChessEngine</strong> delegates to <code class="diagram-step-code">chess.js</code> for validation</span>
+      </div>
+    </div>
+  </div>
+
+  <div class="diagram-branch">
+    <div class="diagram-branch-box no">
+      <div class="diagram-branch-title">✗ INVALID</div>
+      <div class="diagram-branch-text">
+        Illegal move → reject<br>
+        Examples: pawn backward, into check, pinned piece
+      </div>
+    </div>
+    <div class="diagram-branch-box yes">
+      <div class="diagram-branch-title">✓ VALID</div>
+      <div class="diagram-branch-text">
+        Execute move → update state<br>
+        Generate SAN, update history
+      </div>
+    </div>
+  </div>
+
+  <div class="diagram-box main">
+    <div class="diagram-box-title">POST-MOVE CHECKS</div>
+    <div class="diagram-steps">
+      <div class="diagram-step">
+        <span class="diagram-step-num">5</span>
+        <span class="diagram-step-text">Update board state, switch turn, increment clocks</span>
+      </div>
+      <div class="diagram-connector"></div>
+      <div class="diagram-step">
+        <span class="diagram-step-num">6</span>
+        <span class="diagram-step-text">Check for game-ending conditions:</span>
+      </div>
+    </div>
+  </div>
+
+  <div class="diagram-branch">
+    <div class="diagram-branch-box no">
+      <div class="diagram-branch-title">✗ NO LEGAL MOVES</div>
+      <div class="diagram-branch-text">
+        In check? → <strong>Checkmate</strong><br>
+        Not in check? → <strong>Stalemate</strong>
+      </div>
+    </div>
+    <div class="diagram-branch-box no">
+      <div class="diagram-branch-title">✗ DRAW CONDITIONS</div>
+      <div class="diagram-branch-text">
+        Insufficient material<br>
+        Threefold repetition<br>
+        50-move rule
+      </div>
+    </div>
+    <div class="diagram-branch-box yes">
+      <div class="diagram-branch-title">✓ ONGOING</div>
+      <div class="diagram-branch-text">
+        Game continues<br>
+        Notify opponent via WebSocket
+      </div>
+    </div>
+  </div>
+
+  <div class="diagram-box renderer">
+    <div class="diagram-box-title">UI UPDATE</div>
+    <div class="diagram-steps">
+      <div class="diagram-step">
+        <span class="diagram-step-num">7</span>
+        <span class="diagram-step-text">Re-render <strong>ChessBoard</strong> with new position</span>
+      </div>
+      <div class="diagram-connector"></div>
+      <div class="diagram-step">
+        <span class="diagram-step-num">8</span>
+        <span class="diagram-step-text">Highlight last move, show check indicator if applicable</span>
+      </div>
+    </div>
+  </div>
+</div>

@@ -1,0 +1,68 @@
+<link rel="stylesheet" href="../stylesheets/extra.css">
+<div class="diagram">
+  <div class="diagram-title">Move Handling Flow</div>
+
+  <div class="diagram-box main">
+    <div class="diagram-box-title">USER INTERACTION</div>
+    <div class="diagram-steps">
+      <div class="diagram-step">
+        <span class="diagram-step-num">1</span>
+        <span class="diagram-step-text">User clicks or drags a piece from square A</span>
+      </div>
+      <div class="diagram-connector"></div>
+      <div class="diagram-step">
+        <span class="diagram-step-num">2</span>
+        <span class="diagram-step-text">Component generates legal moves for that square</span>
+      </div>
+      <div class="diagram-connector"></div>
+      <div class="diagram-step">
+        <span class="diagram-step-num">3</span>
+        <span class="diagram-step-text">Legal destination squares highlighted in green</span>
+      </div>
+    </div>
+  </div>
+
+  <div class="diagram-ipc">
+    <div class="diagram-ipc-inner">
+      <div class="diagram-ipc-line"></div>
+      <div class="diagram-ipc-label">Drop / Click destination</div>
+      <div class="diagram-ipc-arrow"></div>
+    </div>
+  </div>
+
+  <div class="diagram-box renderer">
+    <div class="diagram-box-title">VALIDATION &amp; EXECUTION</div>
+    <div class="diagram-steps">
+      <div class="diagram-step">
+        <span class="diagram-step-num">4</span>
+        <span class="diagram-step-text">Check if destination is in legal moves list</span>
+      </div>
+      <div class="diagram-connector"></div>
+      <div class="diagram-step">
+        <span class="diagram-step-num">5</span>
+        <span class="diagram-step-text">If pawn promotion needed → show picker overlay</span>
+      </div>
+      <div class="diagram-connector"></div>
+      <div class="diagram-step">
+        <span class="diagram-step-num">6</span>
+        <span class="diagram-step-text">Construct <code class="diagram-step-code">Move</code> object with from, to, promotion?</span>
+      </div>
+      <div class="diagram-connector"></div>
+      <div class="diagram-step">
+        <span class="diagram-step-num">7</span>
+        <span class="diagram-step-text">Call <code class="diagram-step-code">onMove(move)</code> → parent updates game state</span>
+      </div>
+    </div>
+  </div>
+
+  <div class="diagram-branch">
+    <div class="diagram-branch-box yes">
+      <div class="diagram-branch-title">✓ VALID</div>
+      <div class="diagram-branch-text">Move accepted, board updates, last-move highlighted</div>
+    </div>
+    <div class="diagram-branch-box no">
+      <div class="diagram-branch-title">✗ INVALID</div>
+      <div class="diagram-branch-text">Piece snaps back, no state change</div>
+    </div>
+  </div>
+</div>

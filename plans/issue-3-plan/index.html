@@ -1,0 +1,1236 @@
+<!DOCTYPE html><html lang="en" class="no-js"><head>
+    
+      <meta charset="utf-8">
+      <meta name="viewport" content="width=device-width,initial-scale=1">
+      
+      
+      
+        <link rel="canonical" href="https://farpointhq.github.io/chatroulette-plans/plans/issue-3-plan/">
+      
+      
+        <link rel="prev" href="../issue-2-plan/">
+      
+      
+        <link rel="next" href="../issue-6-plan/">
+      
+      
+        
+      
+      
+      <link rel="icon" href="../../assets/images/favicon.png">
+      <meta name="generator" content="mkdocs-1.6.1, mkdocs-material-9.7.6">
+    
+    
+      
+        <title>Issue 3 - Chess Engine - Implementation Plans</title>
+      
+    
+    
+      <link rel="stylesheet" href="../../assets/stylesheets/main.484c7ddc.min.css">
+      
+        
+        <link rel="stylesheet" href="../../assets/stylesheets/palette.ab4e12ef.min.css">
+      
+      
+
+
+    
+    
+      
+    
+    
+      
+        
+        
+        <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin="">
+        <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Roboto:300,300i,400,400i,700,700i%7CRoboto+Mono:400,400i,700,700i&amp;display=fallback">
+        <style>:root{--md-text-font:"Roboto";--md-code-font:"Roboto Mono"}</style>
+      
+    
+    
+      <link rel="stylesheet" href="../../stylesheets/extra.css">
+    
+    <script>__md_scope=new URL("../..",location),__md_hash=e=>[...e].reduce(((e,_)=>(e<<5)-e+_.charCodeAt(0)),0),__md_get=(e,_=localStorage,t=__md_scope)=>JSON.parse(_.getItem(t.pathname+"."+e)),__md_set=(e,_,t=localStorage,a=__md_scope)=>{try{t.setItem(a.pathname+"."+e,JSON.stringify(_))}catch(e){}}</script>
+    
+      
+
+    
+    
+  <link href="../../assets/stylesheets/glightbox.min.css" rel="stylesheet"><script src="../../assets/javascripts/glightbox.min.js"></script><style id="glightbox-style">
+            html.glightbox-open { overflow: initial; height: 100%; }
+            .gslide-title { margin-top: 0px; user-select: text; }
+            .gslide-desc { color: #666; user-select: text; }
+            .gslide-image img { background: white; }
+            .gscrollbar-fixer { padding-right: 15px; }
+            .gdesc-inner { font-size: 0.75rem; }
+            body[data-md-color-scheme="slate"] .gdesc-inner { background: var(--md-default-bg-color); }
+            body[data-md-color-scheme="slate"] .gslide-title { color: var(--md-default-fg-color); }
+            body[data-md-color-scheme="slate"] .gslide-desc { color: var(--md-default-fg-color); }
+        </style></head>
+  
+  
+    
+    
+      
+    
+    
+    
+    
+    <body dir="ltr" data-md-color-scheme="slate" data-md-color-primary="deep-purple" data-md-color-accent="indigo">
+  
+    
+    <input class="md-toggle" data-md-toggle="drawer" type="checkbox" id="__drawer" autocomplete="off">
+    <input class="md-toggle" data-md-toggle="search" type="checkbox" id="__search" autocomplete="off">
+    <label class="md-overlay" for="__drawer"></label>
+    <div data-md-component="skip">
+      
+        
+        <a href="#issue-3-chess-game-engine-move-validation-game-state-fenpgn" class="md-skip">
+          Skip to content
+        </a>
+      
+    </div>
+    <div data-md-component="announce">
+      
+    </div>
+    
+    
+      
+
+  
+
+<header class="md-header md-header--shadow" data-md-component="header">
+  <nav class="md-header__inner md-grid" aria-label="Header">
+    <a href="../.." title="Implementation Plans" class="md-header__button md-logo" aria-label="Implementation Plans" data-md-component="logo">
+      
+  
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 8a3 3 0 0 0 3-3 3 3 0 0 0-3-3 3 3 0 0 0-3 3 3 3 0 0 0 3 3m0 3.54C9.64 9.35 6.5 8 3 8v11c3.5 0 6.64 1.35 9 3.54 2.36-2.19 5.5-3.54 9-3.54V8c-3.5 0-6.64 1.35-9 3.54"></path></svg>
+
+    </a>
+    <label class="md-header__button md-icon" for="__drawer">
+      
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M3 6h18v2H3zm0 5h18v2H3zm0 5h18v2H3z"></path></svg>
+    </label>
+    <div class="md-header__title" data-md-component="header-title">
+      <div class="md-header__ellipsis">
+        <div class="md-header__topic">
+          <span class="md-ellipsis">
+            Implementation Plans
+          </span>
+        </div>
+        <div class="md-header__topic" data-md-component="header-topic">
+          <span class="md-ellipsis">
+            
+              Issue 3 - Chess Engine
+            
+          </span>
+        </div>
+      </div>
+    </div>
+    
+      
+        <form class="md-header__option" data-md-component="palette">
+  
+    
+    
+    
+    <input class="md-option" data-md-color-media="(prefers-color-scheme: dark)" data-md-color-scheme="slate" data-md-color-primary="deep-purple" data-md-color-accent="indigo" aria-label="Switch to light mode" type="radio" name="__palette" id="__palette_0">
+    
+      <label class="md-header__button md-icon" title="Switch to light mode" for="__palette_1" hidden="">
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 18c-.89 0-1.74-.2-2.5-.55C11.56 16.5 13 14.42 13 12s-1.44-4.5-3.5-5.45C10.26 6.2 11.11 6 12 6a6 6 0 0 1 6 6 6 6 0 0 1-6 6m8-9.31V4h-4.69L12 .69 8.69 4H4v4.69L.69 12 4 15.31V20h4.69L12 23.31 15.31 20H20v-4.69L23.31 12z"></path></svg>
+      </label>
+    
+  
+    
+    
+    
+    <input class="md-option" data-md-color-media="(prefers-color-scheme: light)" data-md-color-scheme="default" data-md-color-primary="deep-purple" data-md-color-accent="indigo" aria-label="Switch to dark mode" type="radio" name="__palette" id="__palette_1">
+    
+      <label class="md-header__button md-icon" title="Switch to dark mode" for="__palette_0" hidden="">
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 8a4 4 0 0 0-4 4 4 4 0 0 0 4 4 4 4 0 0 0 4-4 4 4 0 0 0-4-4m0 10a6 6 0 0 1-6-6 6 6 0 0 1 6-6 6 6 0 0 1 6 6 6 6 0 0 1-6 6m8-9.31V4h-4.69L12 .69 8.69 4H4v4.69L.69 12 4 15.31V20h4.69L12 23.31 15.31 20H20v-4.69L23.31 12z"></path></svg>
+      </label>
+    
+  
+</form>
+      
+    
+    
+      <script>var palette=__md_get("__palette");if(palette&&palette.color){if("(prefers-color-scheme)"===palette.color.media){var media=matchMedia("(prefers-color-scheme: light)"),input=document.querySelector(media.matches?"[data-md-color-media='(prefers-color-scheme: light)']":"[data-md-color-media='(prefers-color-scheme: dark)']");palette.color.media=input.getAttribute("data-md-color-media"),palette.color.scheme=input.getAttribute("data-md-color-scheme"),palette.color.primary=input.getAttribute("data-md-color-primary"),palette.color.accent=input.getAttribute("data-md-color-accent")}for(var[key,value]of Object.entries(palette.color))document.body.setAttribute("data-md-color-"+key,value)}</script>
+    
+    
+    
+      
+      
+        <label class="md-header__button md-icon" for="__search">
+          
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9.5 3A6.5 6.5 0 0 1 16 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.52 6.52 0 0 1 9.5 16 6.5 6.5 0 0 1 3 9.5 6.5 6.5 0 0 1 9.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5"></path></svg>
+        </label>
+        <div class="md-search" data-md-component="search" role="dialog">
+  <label class="md-search__overlay" for="__search"></label>
+  <div class="md-search__inner" role="search">
+    <form class="md-search__form" name="search">
+      <input type="text" class="md-search__input" name="query" aria-label="Search" placeholder="Search" autocapitalize="off" autocorrect="off" autocomplete="off" spellcheck="false" data-md-component="search-query" required="">
+      <label class="md-search__icon md-icon" for="__search">
+        
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9.5 3A6.5 6.5 0 0 1 16 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.52 6.52 0 0 1 9.5 16 6.5 6.5 0 0 1 3 9.5 6.5 6.5 0 0 1 9.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5"></path></svg>
+        
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M20 11v2H8l5.5 5.5-1.42 1.42L4.16 12l7.92-7.92L13.5 5.5 8 11z"></path></svg>
+      </label>
+      <nav class="md-search__options" aria-label="Search">
+        
+        <button type="reset" class="md-search__icon md-icon" title="Clear" aria-label="Clear" tabindex="-1">
+          
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M19 6.41 17.59 5 12 10.59 6.41 5 5 6.41 10.59 12 5 17.59 6.41 19 12 13.41 17.59 19 19 17.59 13.41 12z"></path></svg>
+        </button>
+      </nav>
+      
+    </form>
+    <div class="md-search__output">
+      <div class="md-search__scrollwrap" tabindex="0" data-md-scrollfix="">
+        <div class="md-search-result" data-md-component="search-result">
+          <div class="md-search-result__meta">
+            Initializing search
+          </div>
+          <ol class="md-search-result__list" role="presentation"></ol>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+      
+    
+    
+  </nav>
+  
+</header>
+    
+    <div class="md-container" data-md-component="container">
+      
+      
+        
+          
+        
+      
+      <main class="md-main" data-md-component="main">
+        <div class="md-main__inner md-grid">
+          
+            
+              
+              <div class="md-sidebar md-sidebar--primary" data-md-component="sidebar" data-md-type="navigation">
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+                    
+
+
+
+<nav class="md-nav md-nav--primary" aria-label="Navigation" data-md-level="0">
+  <label class="md-nav__title" for="__drawer">
+    <a href="../.." title="Implementation Plans" class="md-nav__button md-logo" aria-label="Implementation Plans" data-md-component="logo">
+      
+  
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 8a3 3 0 0 0 3-3 3 3 0 0 0-3-3 3 3 0 0 0-3 3 3 3 0 0 0 3 3m0 3.54C9.64 9.35 6.5 8 3 8v11c3.5 0 6.64 1.35 9 3.54 2.36-2.19 5.5-3.54 9-3.54V8c-3.5 0-6.64 1.35-9 3.54"></path></svg>
+
+    </a>
+    Implementation Plans
+  </label>
+  
+  <ul class="md-nav__list" data-md-scrollfix="">
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../.." class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Home
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+    
+  
+  
+  
+    
+    
+    
+    
+      
+        
+        
+      
+    
+    
+    <li class="md-nav__item md-nav__item--active md-nav__item--section md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_2" checked="">
+        
+          
+          <label class="md-nav__link" for="__nav_2" id="__nav_2_label" tabindex="">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Plans
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_2_label" aria-expanded="true">
+          <label class="md-nav__title" for="__nav_2">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    Plans
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix="">
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../issue-2-plan/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Issue 2 - Server Scaffolding
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+    
+  
+  
+  
+    <li class="md-nav__item md-nav__item--active">
+      
+      <input class="md-nav__toggle md-toggle" type="checkbox" id="__toc">
+      
+      
+        
+      
+      
+        <label class="md-nav__link md-nav__link--active" for="__toc">
+          
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Issue 3 - Chess Engine
+  
+
+    
+  </span>
+  
+  
+
+          <span class="md-nav__icon md-icon"></span>
+        </label>
+      
+      <a href="./" class="md-nav__link md-nav__link--active">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Issue 3 - Chess Engine
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+      
+        
+
+<nav class="md-nav md-nav--secondary" aria-label="Table of contents">
+  
+  
+  
+    
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      Table of contents
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix="">
+      
+        <li class="md-nav__item">
+  <a href="#summary" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Summary
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#root-cause-analysis" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Root Cause Analysis
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#proposed-solution" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Proposed Solution
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#key-decision-naming-convention" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Key Decision: Naming Convention
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#files-to-modify" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Files to Modify
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#implementation-steps" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Implementation Steps
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Implementation Steps">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#phase-1-core-engine-wrapper" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Phase 1: Core Engine Wrapper
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#phase-2-utility-modules-thin-wrappers" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Phase 2: Utility Modules (Thin Wrappers)
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#phase-3-ui-component" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Phase 3: UI Component
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#phase-4-test-alignment" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Phase 4: Test Alignment
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#phase-5-verification" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Phase 5: Verification
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#test-strategy" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Test Strategy
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Test Strategy">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#unit-tests-already-provided-in-teststaskst3" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Unit Tests (already provided in tests/tasks/T3/)
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#edge-cases-to-cover" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Edge Cases to Cover
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#architecture" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Architecture
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#move-flow" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Move Flow
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#risks-mitigations" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Risks &amp; Mitigations
+      
+    </span>
+  </a>
+  
+</li>
+      
+    </ul>
+  
+</nav>
+      
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../issue-6-plan/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Issue 6 - Chess Board Frontend
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+  </ul>
+</nav>
+                  </div>
+                </div>
+              </div>
+            
+            
+              
+              <div class="md-sidebar md-sidebar--secondary" data-md-component="sidebar" data-md-type="toc">
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+                    
+
+<nav class="md-nav md-nav--secondary" aria-label="Table of contents">
+  
+  
+  
+    
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      Table of contents
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix="">
+      
+        <li class="md-nav__item">
+  <a href="#summary" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Summary
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#root-cause-analysis" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Root Cause Analysis
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#proposed-solution" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Proposed Solution
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#key-decision-naming-convention" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Key Decision: Naming Convention
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#files-to-modify" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Files to Modify
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#implementation-steps" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Implementation Steps
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Implementation Steps">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#phase-1-core-engine-wrapper" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Phase 1: Core Engine Wrapper
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#phase-2-utility-modules-thin-wrappers" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Phase 2: Utility Modules (Thin Wrappers)
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#phase-3-ui-component" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Phase 3: UI Component
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#phase-4-test-alignment" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Phase 4: Test Alignment
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#phase-5-verification" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Phase 5: Verification
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#test-strategy" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Test Strategy
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Test Strategy">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#unit-tests-already-provided-in-teststaskst3" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Unit Tests (already provided in tests/tasks/T3/)
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#edge-cases-to-cover" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Edge Cases to Cover
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#architecture" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Architecture
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#move-flow" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Move Flow
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#risks-mitigations" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Risks &amp; Mitigations
+      
+    </span>
+  </a>
+  
+</li>
+      
+    </ul>
+  
+</nav>
+                  </div>
+                </div>
+              </div>
+            
+          
+          
+            <div class="md-content" data-md-component="content">
+              
+              <article class="md-content__inner md-typeset">
+                
+                  
+
+
+
+<h1 id="issue-3-chess-game-engine-move-validation-game-state-fenpgn">Issue #3: Chess game engine — move validation, game state, FEN/PGN</h1>
+<h2 id="summary">Summary</h2>
+<p>Build a complete chess engine that handles board representation, move validation for all pieces, special moves (castling, en passant, promotion), check/checkmate/stalemate detection, turn management, FEN import/export, and PGN export. The engine must be usable both server-side (authoritative validation) and client-side (UX previews).</p>
+<h2 id="root-cause-analysis">Root Cause Analysis</h2>
+<p>The project currently has only stubbed engine code:
+- <code>src/engine/types.ts</code> — TypeScript type definitions exist but use shorthand naming (<code>'p'</code>, <code>'w'</code>) while test files expect longhand (<code>'pawn'</code>, <code>'white'</code>)
+- <code>src/engine/board.ts</code> — Basic board utilities (coordinate conversions, board creation) are implemented
+- <code>src/components/ChessBoard.tsx</code> — Deliberately renders a 7×7 grid with no pieces (RED-phase stub)
+- No move generation, no FEN parser, no game state manager, no PGN support
+- <code>chess.js</code> v1.4.0 is already listed as a dependency but not yet integrated</p>
+<h2 id="proposed-solution">Proposed Solution</h2>
+<p><strong>Reuse <code>chess.js</code></strong> as the core engine and wrap it in a project-specific API layer. This avoids re-implementing complex chess rules (pin detection, insufficient material, threefold repetition, 50-move rule, etc.) and gives us a well-tested foundation. Build the following modules:</p>
+<ol>
+<li><strong><code>src/engine/chess.js</code></strong> — Main <code>ChessEngine</code> class wrapping <code>chess.js</code> <code>Chess</code></li>
+<li><strong><code>src/engine/fen.ts</code></strong> — FEN parsing/generation utilities (wraps chess.js + custom format conversions)</li>
+<li><strong><code>src/engine/moves.ts</code></strong> — Move generation and validation (wraps chess.js + exposes per-square legal moves)</li>
+<li><strong><code>src/engine/game.ts</code></strong> — Game state management: <code>createGame()</code>, <code>makeMove()</code>, <code>undoMove()</code>, <code>getGameResult()</code></li>
+<li><strong><code>src/engine/special.ts</code></strong> — Special moves: castling, en passant, pawn promotion helpers</li>
+<li><strong><code>src/engine/pgn.ts</code></strong> — PGN generation (<code>generatePGN()</code>) and SAN notation (<code>moveToSAN()</code>)</li>
+<li><strong><code>src/components/ChessBoard.tsx</code></strong> — Fix the 7×7 stub → proper 8×8 interactive board with drag-and-drop, legal-move highlights, check indicators, and promotion picker</li>
+</ol>
+<h2 id="key-decision-naming-convention">Key Decision: Naming Convention</h2>
+<p><code>chess.js</code> uses shorthand (<code>{ type: 'p', color: 'w' }</code>). The existing <code>types.ts</code> already defines this convention. However, several test files (<code>board.test.ts</code>, <code>moves.test.ts</code>, <code>fen.test.ts</code>, <code>game.test.ts</code>, <code>special.test.ts</code>, <code>pgn.test.ts</code>) use longhand (<code>{ type: 'pawn', color: 'white' }</code>). </p>
+<p><strong>Decision:</strong> Use <code>chess.js</code> shorthand as the canonical internal format. Update the longhand test expectations to match, or provide a lightweight <code>toLonghand()</code> / <code>toShorthand()</code> conversion helper if needed for external APIs.</p>
+<h2 id="files-to-modify">Files to Modify</h2>
+<table>
+<thead>
+<tr>
+<th>File</th>
+<th>Change</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>src/engine/chess.js</code></td>
+<td><strong>New</strong> — Main <code>ChessEngine</code> class wrapping <code>chess.js</code></td>
+</tr>
+<tr>
+<td><code>src/engine/fen.ts</code></td>
+<td><strong>New</strong> — <code>parseFEN()</code>, <code>generateFEN()</code>, <code>STARTING_FEN</code> constant</td>
+</tr>
+<tr>
+<td><code>src/engine/moves.ts</code></td>
+<td><strong>New</strong> — <code>generateLegalMoves()</code>, <code>isMoveLegal()</code>, <code>isInCheck()</code>, <code>isSquareAttacked()</code>, <code>findKing()</code>, <code>generateAllLegalMoves()</code></td>
+</tr>
+<tr>
+<td><code>src/engine/game.ts</code></td>
+<td><strong>New</strong> — <code>createGame()</code>, <code>createGameFromFEN()</code>, <code>makeMove()</code>, <code>canMakeMove()</code>, <code>getGameResult()</code>, <code>isCheckmate()</code>, <code>isStalemate()</code>, <code>isDraw()</code>, <code>isInsufficientMaterial()</code>, <code>undoMove()</code>, <code>getMoveHistory()</code></td>
+</tr>
+<tr>
+<td><code>src/engine/special.ts</code></td>
+<td><strong>New</strong> — <code>canCastleKingside()</code>, <code>canCastleQueenside()</code>, <code>getCastlingRookSquare()</code>, <code>isEnPassantTarget()</code>, <code>canPromote()</code>, <code>getPromotionRank()</code>, <code>updateCastlingRights()</code></td>
+</tr>
+<tr>
+<td><code>src/engine/pgn.ts</code></td>
+<td><strong>New</strong> — <code>moveToSAN()</code>, <code>generateMoveNumber()</code>, <code>generatePGN()</code></td>
+</tr>
+<tr>
+<td><code>src/engine/types.ts</code></td>
+<td><strong>Update</strong> — Ensure types align with <code>chess.js</code> conventions; add <code>Move</code> enhancements (<code>isCheck</code>, <code>isCheckmate</code>, <code>isCastling</code>, <code>isEnPassant</code>, <code>capturedPiece</code>)</td>
+</tr>
+<tr>
+<td><code>src/components/ChessBoard.tsx</code></td>
+<td><strong>Fix</strong> — 7×7 → 8×8, render actual pieces, add drag-and-drop, legal-move highlights, check/checkmate indicators, promotion picker</td>
+</tr>
+<tr>
+<td><code>tests/tasks/T3/board.test.ts</code></td>
+<td><strong>Update</strong> — Change longhand expectations to shorthand (<code>'pawn'</code> → <code>'p'</code>, <code>'white'</code> → <code>'w'</code>)</td>
+</tr>
+<tr>
+<td><code>tests/tasks/T3/moves.test.ts</code></td>
+<td><strong>Update</strong> — Change longhand expectations to shorthand</td>
+</tr>
+<tr>
+<td><code>tests/tasks/T3/fen.test.ts</code></td>
+<td><strong>Update</strong> — Change longhand expectations to shorthand</td>
+</tr>
+<tr>
+<td><code>tests/tasks/T3/game.test.ts</code></td>
+<td><strong>Update</strong> — Change longhand expectations to shorthand</td>
+</tr>
+<tr>
+<td><code>tests/tasks/T3/special.test.ts</code></td>
+<td><strong>Update</strong> — Change longhand expectations to shorthand</td>
+</tr>
+<tr>
+<td><code>tests/tasks/T3/pgn.test.ts</code></td>
+<td><strong>Update</strong> — Change longhand expectations to shorthand</td>
+</tr>
+<tr>
+<td><code>tests/tasks/T3/run-tests.sh</code></td>
+<td><strong>Update</strong> — Switch from <code>node tests/tasks/T3/chessEngine.test.js</code> to <code>npx vitest run tests/tasks/T3/</code></td>
+</tr>
+<tr>
+<td><code>tsconfig.engine.json</code></td>
+<td><strong>No change</strong> — Already configured to compile <code>src/engine/</code> to <code>dist/</code></td>
+</tr>
+</tbody>
+</table>
+<h2 id="implementation-steps">Implementation Steps</h2>
+<h3 id="phase-1-core-engine-wrapper">Phase 1: Core Engine Wrapper</h3>
+<ol>
+<li>Create <code>src/engine/chess.js</code> extending/wrapping <code>chess.js</code> <code>Chess</code> class</li>
+<li>Constructor: <code>new ChessEngine(fen?)</code> — loads starting position or given FEN</li>
+<li><code>.move(input)</code> — accepts SAN string (<code>'e4'</code>), object (<code>{ from, to, promotion }</code>), or long algebraic; returns <code>true</code>/<code>false</code></li>
+<li><code>.fen()</code> — exports current position as FEN string</li>
+<li><code>.turn()</code> — returns <code>'w'</code> or <code>'b'</code></li>
+<li><code>.get(square)</code> — returns <code>{ type, color }</code> or <code>null</code></li>
+<li><code>.moves(options?)</code> — returns array of SAN strings or verbose <code>Move</code> objects</li>
+<li><code>.isLegal(move)</code> — validates a move without executing it</li>
+<li><code>.inCheck()</code>, <code>.isCheckmate()</code>, <code>.isStalemate()</code>, <code>.isDraw()</code> — game-state queries</li>
+<li><code>.undo()</code> — reverts last move, returns undone move or <code>null</code></li>
+<li><code>.historyMoves()</code> — returns array of executed moves with SAN</li>
+<li><code>.pgn(options?)</code> — exports game as PGN string with optional headers</li>
+<li><code>.load(fen)</code>, <code>.loadPgn(pgn)</code> — import position/game</li>
+<li><code>.clear()</code>, <code>.reset()</code>, <code>.put(piece, square)</code>, <code>.remove(square)</code> — board manipulation</li>
+<li>
+<p><code>.validateFen(fen)</code> — static validation helper</p>
+</li>
+<li>
+<p>Create <code>src/engine/types.ts</code> updates:</p>
+</li>
+<li>Add <code>isCheck</code>, <code>isCheckmate</code>, <code>isCastling</code>, <code>isEnPassant</code>, <code>capturedPiece</code> to <code>Move</code></li>
+<li>Ensure all types use shorthand (<code>'p'</code>, <code>'w'</code>) consistently</li>
+</ol>
+<h3 id="phase-2-utility-modules-thin-wrappers">Phase 2: Utility Modules (Thin Wrappers)</h3>
+<ol>
+<li>Create <code>src/engine/fen.ts</code>:</li>
+<li><code>STARTING_FEN</code> constant</li>
+<li><code>parseFEN(fen)</code> → returns <code>GameState</code> with <code>board</code> as 8×8 array, <code>turn</code>, <code>castlingRights</code>, <code>enPassantTarget</code>, <code>halfmoveClock</code>, <code>fullmoveNumber</code></li>
+<li><code>generateFEN(state)</code> → returns FEN string</li>
+<li>
+<p>Internally delegates to <code>chess.js</code> for parsing, then converts to our <code>GameState</code> format</p>
+</li>
+<li>
+<p>Create <code>src/engine/moves.ts</code>:</p>
+</li>
+<li><code>generateLegalMoves(state, square)</code> → array of legal destination squares for piece at square</li>
+<li><code>generateAllLegalMoves(state, color)</code> → array of all legal moves for color</li>
+<li><code>isMoveLegal(state, from, to)</code> → boolean</li>
+<li><code>isInCheck(state, color)</code> → boolean</li>
+<li><code>isSquareAttacked(state, square, byColor)</code> → boolean</li>
+<li><code>findKing(state, color)</code> → king's square <code>{ file, rank }</code></li>
+<li>
+<p>Internally uses a temporary <code>Chess</code> instance from FEN</p>
+</li>
+<li>
+<p>Create <code>src/engine/special.ts</code>:</p>
+</li>
+<li><code>canCastleKingside(state, color)</code>, <code>canCastleQueenside(state, color)</code> → boolean</li>
+<li><code>getCastlingRookSquare(color, side)</code> → <code>{ kingFrom, kingTo, rookFrom, rookTo }</code></li>
+<li><code>isEnPassantTarget(state, square)</code> → boolean</li>
+<li><code>canPromote(from, to, color)</code> → boolean</li>
+<li><code>getPromotionRank(color)</code> → <code>8</code> (white) or <code>1</code> (black)</li>
+<li>
+<p><code>updateCastlingRights(state, move)</code> → updated <code>CastlingRights</code></p>
+</li>
+<li>
+<p>Create <code>src/engine/game.ts</code>:</p>
+</li>
+<li><code>createGame()</code> → new game with starting position</li>
+<li><code>createGameFromFEN(fen)</code> → game from arbitrary position</li>
+<li><code>makeMove(game, from, to, promotion?)</code> → new <code>Game</code> with move applied (immutable)</li>
+<li><code>canMakeMove(game, from, to)</code> → boolean</li>
+<li><code>getGameResult(state)</code> → <code>{ result: GameResult, winner: Color \| null }</code></li>
+<li><code>isCheckmate(state, color)</code>, <code>isStalemate(state, color)</code>, <code>isDraw(state)</code>, <code>isInsufficientMaterial(state)</code> → boolean</li>
+<li><code>undoMove(game)</code> → previous <code>Game</code> state (immutable)</li>
+<li>
+<p><code>getMoveHistory(game)</code> → copy of move history</p>
+</li>
+<li>
+<p>Create <code>src/engine/pgn.ts</code>:</p>
+</li>
+<li><code>moveToSAN(move, state)</code> → SAN string (e.g., <code>'Nf3+'</code>, <code>'O-O'</code>, <code>'exd5=Q'</code>)</li>
+<li><code>generateMoveNumber(moveNumber, color)</code> → <code>'1.'</code> or <code>'1...'</code></li>
+<li><code>generatePGN(game, headers?)</code> → full PGN string with tags and move list</li>
+<li>Uses <code>chess.js</code> for SAN generation where possible</li>
+</ol>
+<h3 id="phase-3-ui-component">Phase 3: UI Component</h3>
+<ol>
+<li>Fix <code>src/components/ChessBoard.tsx</code>:</li>
+<li>Fix grid: 7×7 → 8×8</li>
+<li>Render pieces using Unicode chess symbols (♔♕♖♗♘♙ / ♚♛♜♝♞♟)</li>
+<li>Implement drag-and-drop or click-to-move</li>
+<li>Add <code>data-testid</code> attributes for testability</li>
+<li>Show legal move highlights when a piece is selected</li>
+<li>Show last-move highlight</li>
+<li>Show check indicator (red border on king's square)</li>
+<li>Show checkmate/stalemate overlay</li>
+<li>Implement pawn promotion picker modal</li>
+<li>Handle orientation prop (flip board for black)</li>
+</ol>
+<h3 id="phase-4-test-alignment">Phase 4: Test Alignment</h3>
+<ol>
+<li>Update all test files to use shorthand naming:</li>
+<li><code>'pawn'</code> → <code>'p'</code>, <code>'rook'</code> → <code>'r'</code>, <code>'knight'</code> → <code>'n'</code>, <code>'bishop'</code> → <code>'b'</code>, <code>'queen'</code> → <code>'q'</code>, <code>'king'</code> → <code>'k'</code></li>
+<li><code>'white'</code> → <code>'w'</code>, <code>'black'</code> → <code>'b'</code></li>
+<li>Update <code>parseSquare</code> tests: <code>parseSquare('e4')</code> should return string <code>'e4'</code> not object <code>{ file: 'e', rank: 4 }</code></li>
+<li>Update <code>getPieceAt</code> / <code>setPieceAt</code> tests to accept <code>Square</code> string instead of object</li>
+<li>
+<p>Fix <code>board.test.ts</code> array indexing: tests use <code>[f][r]</code> but <code>board.ts</code> uses <code>[rank][file]</code></p>
+</li>
+<li>
+<p>Update <code>run-tests.sh</code> to use Vitest:
+    </p><div class="highlight"><pre><span></span><code>npx<span class="w"> </span>vitest<span class="w"> </span>run<span class="w"> </span>tests/tasks/T3/
+</code></pre></div><p></p>
+</li>
+</ol>
+<h3 id="phase-5-verification">Phase 5: Verification</h3>
+<ol>
+<li>Run <code>npm test</code> — all T3 tests should pass</li>
+<li>Run <code>npm run build</code> — TypeScript compilation should succeed</li>
+<li>Verify <code>ChessBoard</code> renders correctly in browser</li>
+</ol>
+<h2 id="test-strategy">Test Strategy</h2>
+<h3 id="unit-tests-already-provided-in-teststaskst3">Unit Tests (already provided in <code>tests/tasks/T3/</code>)</h3>
+<ul>
+<li><strong>Board tests</strong> (<code>board.test.ts</code>): Coordinate conversions, square parsing, board creation, cloning, piece get/set</li>
+<li><strong>Move tests</strong> (<code>moves.test.ts</code>): Per-piece legal move generation, king safety (can't move into check), attack detection, findKing</li>
+<li><strong>FEN tests</strong> (<code>fen.test.ts</code>): Parse/generate starting position, arbitrary positions, en passant, castling rights, round-trip fidelity</li>
+<li><strong>Game tests</strong> (<code>game.test.ts</code>): Move execution, captures, turn switching, halfmove/fullmove clocks, castling, en passant, promotion, undo, checkmate/stalemate/insufficient material detection</li>
+<li><strong>Special tests</strong> (<code>special.test.ts</code>): Castling rights checks, path obstruction, king-in-check prevention, en passant validity, promotion rank detection, castling rights updates</li>
+<li><strong>PGN tests</strong> (<code>pgn.test.ts</code>): SAN generation for all move types, move numbering, full PGN export with headers and result</li>
+<li><strong>Integration tests</strong> (<code>chess-engine.test.ts</code>): Full ChessEngine class covering all public methods, edge cases, draw conditions (insufficient material, threefold repetition, 50-move rule)</li>
+</ul>
+<h3 id="edge-cases-to-cover">Edge Cases to Cover</h3>
+<ul>
+<li><strong>Insufficient material</strong>: K vs K, K+B vs K, K+N vs K → draw</li>
+<li><strong>Threefold repetition</strong>: Same position reached 3 times → draw</li>
+<li><strong>50-move rule</strong>: 50 half-moves without pawn move or capture → draw</li>
+<li><strong>Pinned pieces</strong>: Piece that would expose king cannot move</li>
+<li><strong>Discovered check</strong>: Moving a piece that blocks a check is illegal</li>
+<li><strong>Castling through check</strong>: King cannot castle if passing through attacked square</li>
+<li><strong>En passant window</strong>: Only valid immediately after double pawn push</li>
+<li><strong>Promotion default</strong>: Defaults to queen if no promotion piece specified</li>
+</ul>
+<h2 id="architecture">Architecture</h2>
+<p><a class="glightbox" data-type="image" data-width="auto" data-height="auto" href="../issue-3-architecture.png" data-desc-position="bottom"><img alt="Engine Architecture" src="../issue-3-architecture.png"></a></p>
+<h2 id="move-flow">Move Flow</h2>
+<p><a class="glightbox" data-type="image" data-width="auto" data-height="auto" href="../issue-3-moveflow.png" data-desc-position="bottom"><img alt="Move Flow Diagram" src="../issue-3-moveflow.png"></a></p>
+<h2 id="risks-mitigations">Risks &amp; Mitigations</h2>
+<table>
+<thead>
+<tr>
+<th>Risk</th>
+<th>Mitigation</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>chess.js</code> API changes in future versions</td>
+<td>Pin version in <code>package.json</code> (already at <code>^1.4.0</code>); wrap all chess.js calls so upgrades only touch one file</td>
+</tr>
+<tr>
+<td>Test naming convention mismatch (shorthand vs longhand)</td>
+<td>Document the convention in <code>src/engine/README.md</code>; update all tests to use shorthand; add a <code>toLonghand()</code> helper if external APIs need it</td>
+</tr>
+<tr>
+<td>Board array indexing confusion (<code>[rank][file]</code> vs <code>[file][rank]</code>)</td>
+<td>Add clear JSDoc comments on <code>board.ts</code> functions; use named parameters (<code>rank</code>, <code>file</code>) instead of raw indices</td>
+</tr>
+<tr>
+<td><code>ChessBoard.tsx</code> 7×7 stub breaks silently</td>
+<td>Add a <code>data-testid="square-h8"</code> assertion in component tests to catch grid-size regressions</td>
+</tr>
+<tr>
+<td>Performance of creating temporary <code>Chess</code> instances in utility functions</td>
+<td>Cache <code>Chess</code> instances where possible; benchmark with <code>console.time</code>; consider memoizing FEN → <code>Chess</code> maps</td>
+</tr>
+<tr>
+<td>PGN generation edge cases (ambiguous moves, disambiguation)</td>
+<td>Delegate to <code>chess.js</code> <code>.pgn()</code> for standard cases; only implement custom SAN for the <code>moveToSAN()</code> utility</td>
+</tr>
+<tr>
+<td>Server/client bundle size</td>
+<td><code>chess.js</code> is ~15KB minified; tree-shake unused methods; consider lazy-loading for spectator views</td>
+</tr>
+</tbody>
+</table>
+
+
+
+
+
+
+
+
+
+
+
+
+                
+              </article>
+            </div>
+          
+          
+<script>var target=document.getElementById(location.hash.slice(1));target&&target.name&&(target.checked=target.name.startsWith("__tabbed_"))</script>
+        </div>
+        
+      </main>
+      
+        <footer class="md-footer">
+  
+  <div class="md-footer-meta md-typeset">
+    <div class="md-footer-meta__inner md-grid">
+      <div class="md-copyright">
+  
+  
+    Made with
+    <a href="https://squidfunk.github.io/mkdocs-material/" target="_blank" rel="noopener">
+      Material for MkDocs
+    </a>
+  
+</div>
+      
+    </div>
+  </div>
+</footer>
+      
+    </div>
+    <div class="md-dialog" data-md-component="dialog">
+      <div class="md-dialog__inner md-typeset"></div>
+    </div>
+    
+    
+    
+      
+      
+      <script id="__config" type="application/json">{"annotate": null, "base": "../..", "features": ["navigation.instant", "navigation.sections", "content.code.copy"], "search": "../../assets/javascripts/workers/search.2c215733.min.js", "tags": null, "translations": {"clipboard.copied": "Copied to clipboard", "clipboard.copy": "Copy to clipboard", "search.result.more.one": "1 more on this page", "search.result.more.other": "# more on this page", "search.result.none": "No matching documents", "search.result.one": "1 matching document", "search.result.other": "# matching documents", "search.result.placeholder": "Type to start searching", "search.result.term.missing": "Missing", "select.version": "Select version"}, "version": null}</script>
+    
+    
+      <script src="../../assets/javascripts/bundle.79ae519e.min.js"></script>
+      
+    
+  
+<script id="init-glightbox">const lightbox = GLightbox({"touchNavigation": true, "loop": false, "zoomable": true, "draggable": true, "openEffect": "zoom", "closeEffect": "zoom", "slideEffect": "slide"});
+document$.subscribe(()=>{ lightbox.reload(); });
+</script></body></html>

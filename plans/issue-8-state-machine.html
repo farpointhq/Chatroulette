@@ -1,0 +1,40 @@
+<link rel="stylesheet" href="../stylesheets/extra.css">
+<div class="diagram">
+  <div class="diagram-title">Lobby State Machine</div>
+  <div class="diagram-box main">
+    <div class="diagram-box-title">STATES</div>
+    <div class="diagram-steps">
+      <div class="diagram-step">
+        <span class="diagram-step-num">1</span>
+        <span class="diagram-step-text"><strong>idle</strong> — Landing page, nickname input, "Find Match"</span>
+      </div>
+      <div class="diagram-connector"></div>
+      <div class="diagram-step">
+        <span class="diagram-step-num">2</span>
+        <span class="diagram-step-text"><strong>searching</strong> — Spinner, "Finding opponent...", Cancel</span>
+      </div>
+      <div class="diagram-connector"></div>
+      <div class="diagram-branch">
+        <div class="diagram-branch-box yes">
+          <div class="diagram-branch-title">✓ MATCHED</div>
+          <div class="diagram-branch-text">
+            <strong>match-found</strong><br/>
+            Opponent info, color, countdown, Accept/Decline
+          </div>
+        </div>
+        <div class="diagram-branch-box no">
+          <div class="diagram-branch-title">✗ ERROR</div>
+          <div class="diagram-branch-text">
+            <strong>error</strong><br/>
+            Connection lost, retry available
+          </div>
+        </div>
+      </div>
+      <div class="diagram-connector"></div>
+      <div class="diagram-step">
+        <span class="diagram-step-num">3</span>
+        <span class="diagram-step-text"><strong>in-game</strong> — Chess board, "Game in progress"</span>
+      </div>
+    </div>
+  </div>
+</div>

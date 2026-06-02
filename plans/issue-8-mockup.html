@@ -1,0 +1,131 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <style>
+    * { box-sizing: border-box; }
+    body { font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif; background: #0a0a0a; color: #e0e0e0; padding: 40px; margin: 0; }
+    .scenario { margin-bottom: 48px; }
+    .scenario-title { color: #888; font-size: 13px; margin-bottom: 16px; text-transform: uppercase; letter-spacing: 1px; font-weight: 600; }
+    
+    /* Lobby container */
+    .lobby { background: linear-gradient(180deg, #1a1a2e 0%, #16213e 100%); border-radius: 16px; padding: 32px; max-width: 420px; margin: 0 auto; border: 1px solid rgba(99, 102, 241, 0.2); box-shadow: 0 8px 32px rgba(0,0,0,0.4); }
+    .lobby-title { font-size: 28px; font-weight: 800; text-align: center; margin-bottom: 4px; background: linear-gradient(135deg, #818cf8 0%, #c084fc 100%); -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text; }
+    .lobby-subtitle { text-align: center; color: #6b7280; font-size: 13px; margin-bottom: 24px; }
+    
+    /* Input */
+    .input-group { margin-bottom: 16px; }
+    .input-label { display: block; font-size: 12px; color: #9ca3af; margin-bottom: 6px; font-weight: 500; }
+    .input-field { width: 100%; background: #0f172a; border: 1px solid #1e293b; border-radius: 8px; padding: 12px 14px; color: #e2e8f0; font-size: 15px; outline: none; }
+    .input-field:focus { border-color: #6366f1; }
+    
+    /* Player count */
+    .player-count { text-align: center; font-size: 13px; color: #22c55e; margin-bottom: 20px; display: flex; align-items: center; justify-content: center; gap: 6px; }
+    .dot { width: 8px; height: 8px; background: #22c55e; border-radius: 50%; animation: pulse 2s infinite; }
+    @keyframes pulse { 0%, 100% { opacity: 1; } 50% { opacity: 0.5; } }
+    
+    /* Button */
+    .btn { width: 100%; padding: 14px; border-radius: 10px; border: none; font-size: 16px; font-weight: 700; cursor: pointer; transition: all 0.2s; }
+    .btn-primary { background: linear-gradient(135deg, #4f46e5 0%, #7c3aed 100%); color: white; }
+    .btn-primary:hover { transform: translateY(-1px); box-shadow: 0 4px 20px rgba(99, 102, 241, 0.4); }
+    .btn-primary:disabled { opacity: 0.5; cursor: not-allowed; transform: none; }
+    .btn-secondary { background: #1f2937; color: #e2e8f0; border: 1px solid #374151; }
+    .btn-secondary:hover { background: #374151; }
+    
+    /* Spinner */
+    .spinner-container { text-align: center; padding: 20px 0; }
+    .spinner { width: 48px; height: 48px; border: 3px solid #1e293b; border-top-color: #6366f1; border-radius: 50%; animation: spin 1s linear infinite; margin: 0 auto 16px; }
+    @keyframes spin { to { transform: rotate(360deg); } }
+    .spinner-text { font-size: 15px; color: #e2e8f0; margin-bottom: 8px; }
+    .spinner-subtext { font-size: 12px; color: #6b7280; }
+    
+    /* Opponent card */
+    .opponent-card { background: #0f172a; border-radius: 12px; padding: 20px; text-align: center; border: 1px solid #1e293b; }
+    .opponent-avatar { width: 56px; height: 56px; border-radius: 50%; background: linear-gradient(135deg, #6366f1 0%, #a855f7 100%); margin: 0 auto 12px; display: flex; align-items: center; justify-content: center; font-size: 24px; font-weight: 700; color: white; }
+    .opponent-name { font-size: 18px; font-weight: 700; color: #e2e8f0; margin-bottom: 4px; }
+    .opponent-color { font-size: 13px; color: #a78bfa; margin-bottom: 12px; }
+    .countdown { font-size: 32px; font-weight: 800; color: #fbbf24; margin-bottom: 16px; }
+    .btn-row { display: flex; gap: 10px; }
+    .btn-row .btn { flex: 1; }
+    .btn-success { background: linear-gradient(135deg, #16a34a 0%, #22c55e 100%); color: white; }
+    .btn-danger { background: linear-gradient(135deg, #dc2626 0%, #ef4444 100%); color: white; }
+    
+    /* Error */
+    .error-banner { background: rgba(220, 38, 38, 0.1); border: 1px solid rgba(220, 38, 38, 0.3); border-radius: 10px; padding: 14px 16px; margin-bottom: 16px; display: flex; align-items: center; gap: 10px; }
+    .error-icon { color: #ef4444; font-size: 18px; flex-shrink: 0; }
+    .error-text { font-size: 13px; color: #fca5a5; }
+  </style>
+</head>
+<body>
+  <!-- State 1: Landing Page (Idle) -->
+  <div class="scenario">
+    <div class="scenario-title">State 1: Landing Page (Idle)</div>
+    <div class="lobby">
+      <div class="lobby-title">Chess Roulette</div>
+      <div class="lobby-subtitle">Find an opponent. Face to face.</div>
+      <div class="input-group">
+        <label class="input-label">Your nickname</label>
+        <input class="input-field" type="text" placeholder="Enter nickname" value="Grandmaster42">
+      </div>
+      <div class="player-count">
+        <span class="dot"></span>
+        <span>128 players online</span>
+      </div>
+      <button class="btn btn-primary">Find Match</button>
+    </div>
+  </div>
+
+  <!-- State 2: Matchmaking Queue (Searching) -->
+  <div class="scenario">
+    <div class="scenario-title">State 2: Matchmaking Queue (Searching)</div>
+    <div class="lobby">
+      <div class="lobby-title">Chess Roulette</div>
+      <div class="spinner-container">
+        <div class="spinner"></div>
+        <div class="spinner-text">Searching for opponent...</div>
+        <div class="spinner-subtext">~45s estimated wait</div>
+      </div>
+      <button class="btn btn-secondary">Cancel</button>
+    </div>
+  </div>
+
+  <!-- State 3: Opponent Found -->
+  <div class="scenario">
+    <div class="scenario-title">State 3: Opponent Found</div>
+    <div class="lobby">
+      <div class="lobby-title">Chess Roulette</div>
+      <div class="opponent-card">
+        <div class="opponent-avatar">R</div>
+        <div class="opponent-name">RookieSlayer</div>
+        <div class="opponent-color">You play as White</div>
+        <div class="countdown">5</div>
+        <div class="btn-row">
+          <button class="btn btn-success">Accept</button>
+          <button class="btn btn-danger">Decline</button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- State 4: Connection Error -->
+  <div class="scenario">
+    <div class="scenario-title">State 4: Connection Error</div>
+    <div class="lobby">
+      <div class="lobby-title">Chess Roulette</div>
+      <div class="error-banner">
+        <span class="error-icon">⚠</span>
+        <span class="error-text">Connection lost. Unable to reach matchmaking server.</span>
+      </div>
+      <div class="input-group">
+        <label class="input-label">Your nickname</label>
+        <input class="input-field" type="text" placeholder="Enter nickname" value="Grandmaster42">
+      </div>
+      <div class="player-count">
+        <span class="dot" style="background: #6b7280; animation: none;"></span>
+        <span style="color: #6b7280;">Offline</span>
+      </div>
+      <button class="btn btn-primary">Find Match</button>
+      <button class="btn btn-secondary" style="margin-top: 10px;">Retry Connection</button>
+    </div>
+  </div>
+</body>
+</html>

@@ -1,0 +1,78 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="UTF-8">
+  <link rel="stylesheet" href="../../extra.css">
+</head>
+<body>
+<div class="diagram" style="padding: 24px;">
+  <div style="display: flex; flex-direction: column; gap: 20px; max-width: 700px;">
+    <!-- SERVER BOOT -->
+    <div class="diagram-box main">
+      <div class="diagram-box-title">SERVER STARTUP</div>
+      <div class="diagram-steps" style="margin-top: 10px;">
+        <div class="diagram-step"><span class="diagram-step-num">1</span><span class="diagram-step-text">Load <span class="diagram-step-code">.env</span> → PORT, CORS_ORIGIN</span></div>
+        <div class="diagram-connector"></div>
+        <div class="diagram-step"><span class="diagram-step-num">2</span><span class="diagram-step-text">Create Express app + HTTP server</span></div>
+        <div class="diagram-connector"></div>
+        <div class="diagram-step"><span class="diagram-step-num">3</span><span class="diagram-step-text">Attach Socket.io with CORS config</span></div>
+        <div class="diagram-connector"></div>
+        <div class="diagram-step"><span class="diagram-step-num">4</span><span class="diagram-step-text">Register <span class="diagram-step-code">GET /health</span> endpoint</span></div>
+        <div class="diagram-connector"></div>
+        <div class="diagram-step"><span class="diagram-step-num">5</span><span class="diagram-step-text">Listen on PORT</span></div>
+      </div>
+    </div>
+
+    <!-- CONNECTOR -->
+    <div class="diagram-ipc">
+      <div class="diagram-ipc-inner">
+        <div class="diagram-ipc-line"></div>
+        <div class="diagram-ipc-label">Client Connects</div>
+        <div class="diagram-ipc-arrow"></div>
+      </div>
+    </div>
+
+    <!-- CLIENT CONNECTION -->
+    <div class="diagram-box renderer">
+      <div class="diagram-box-title" style="color: #10b981;">CONNECTION LIFECYCLE</div>
+      <div class="diagram-steps" style="margin-top: 10px;">
+        <div class="diagram-step"><span class="diagram-step-num">1</span><span class="diagram-step-text"><span class="diagram-step-code">io.on('connection')</span> fires</span></div>
+        <div class="diagram-connector"></div>
+        <div class="diagram-step"><span class="diagram-step-num">2</span><span class="diagram-step-text">Socket auto-joins <span class="diagram-step-code">'lobby'</span> namespace</span></div>
+        <div class="diagram-connector"></div>
+        <div class="diagram-step"><span class="diagram-step-num">3</span><span class="diagram-step-text">Emit <span class="diagram-step-code">'room:list'</span> with active rooms</span></div>
+        <div class="diagram-connector"></div>
+        <div class="diagram-step"><span class="diagram-step-num">4</span><span class="diagram-step-text">Wait for events: <span class="diagram-step-code">'room:create'</span>, <span class="diagram-step-code">'room:join'</span>, <span class="diagram-step-code">'room:leave'</span></span></div>
+      </div>
+    </div>
+
+    <!-- BRANCH -->
+    <div class="diagram-branch" style="margin-top: 6px;">
+      <div class="diagram-branch-box yes">
+        <div class="diagram-branch-title">CREATE ROOM</div>
+        <div class="diagram-branch-text">Generate roomId → create RoomState → socket.join(roomId) → broadcast 'room:created'</div>
+      </div>
+      <div class="diagram-branch-box no">
+        <div class="diagram-branch-title">JOIN ROOM</div>
+        <div class="diagram-branch-text">Validate room exists → socket.join(roomId) → update RoomState → broadcast 'room:updated'</div>
+      </div>
+    </div>
+
+    <!-- DISCONNECT -->
+    <div class="diagram-connector"></div>
+    <div class="diagram-box main">
+      <div class="diagram-box-title">DISCONNECT</div>
+      <div class="diagram-steps" style="margin-top: 10px;">
+        <div class="diagram-step"><span class="diagram-step-num">1</span><span class="diagram-step-text"><span class="diagram-step-code">socket.on('disconnect')</span> fires</span></div>
+        <div class="diagram-connector"></div>
+        <div class="diagram-step"><span class="diagram-step-num">2</span><span class="diagram-step-text">Remove socket from all rooms</span></div>
+        <div class="diagram-connector"></div>
+        <div class="diagram-step"><span class="diagram-step-num">3</span><span class="diagram-step-text">If room empty → delete room</span></div>
+        <div class="diagram-connector"></div>
+        <div class="diagram-step"><span class="diagram-step-num">4</span><span class="diagram-step-text">Broadcast updated room list</span></div>
+      </div>
+    </div>
+  </div>
+</div>
+</body>
+</html>

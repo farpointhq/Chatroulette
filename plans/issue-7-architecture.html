@@ -1,0 +1,105 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <link rel="stylesheet" href="../stylesheets/extra.css">
+  <style>
+    .diagram { width: 900px; padding: 30px; }
+    .diagram-comparison { gap: 24px; }
+    .video-feed { min-height: 100px; background: #1a1a2e; border-radius: 8px; display: flex; align-items: center; justify-content: center; border: 2px solid #4a4a6a; }
+    .video-feed.local { border-color: #5cb85c; }
+    .video-feed.remote { border-color: #6a5af9; }
+    .controls-row { display: flex; gap: 8px; justify-content: center; margin-top: 12px; }
+    .ctrl-btn { padding: 6px 14px; border-radius: 6px; background: #333; color: #fff; font-size: 12px; border: none; }
+    .ctrl-btn.mute { background: #d9534f; }
+    .ctrl-btn.video { background: #d9534f; }
+    .ctrl-btn.end { background: #c9302c; }
+    .status-pill { display: inline-block; padding: 2px 8px; border-radius: 4px; font-size: 11px; background: #333; margin-bottom: 8px; }
+    .status-pill.connected { background: #1e4a1e; color: #5cb85c; }
+    .status-pill.connecting { background: #4a3a1e; color: #f0ad4e; }
+  </style>
+</head>
+<body>
+<div class="diagram">
+  <div class="diagram-title">VideoChat Component Architecture</div>
+
+  <div class="diagram-row" style="display: flex; gap: 24px; margin-bottom: 20px;">
+    <div class="diagram-box main" style="flex: 1;">
+      <div class="diagram-box-title">PARENT (Game Page / App)</div>
+      <div class="diagram-steps">
+        <div class="diagram-step">
+          <span class="diagram-step-text"><code class="diagram-step-code">useState(localStream)</code></span>
+        </div>
+        <div class="diagram-step">
+          <span class="diagram-step-text"><code class="diagram-step-code">useState(remoteStream)</code></span>
+        </div>
+        <div class="diagram-step">
+          <span class="diagram-step-text"><code class="diagram-step-code">useState(connectionState)</code></span>
+        </div>
+        <div class="diagram-step">
+          <span class="diagram-step-text"><code class="diagram-step-code">simple-peer signal handler</code></span>
+        </div>
+      </div>
+    </div>
+
+    <div style="display: flex; align-items: center; font-size: 24px; color: #888;">→</div>
+
+    <div class="diagram-box renderer" style="flex: 1.5;">
+      <div class="diagram-box-title">VideoChat (Presentational)</div>
+      <div class="diagram-steps">
+        <div class="diagram-step">
+          <span class="diagram-step-num">1</span>
+          <span class="diagram-step-text">Props: <code class="diagram-step-code">localStream, remoteStream</code></span>
+        </div>
+        <div class="diagram-connector"></div>
+        <div class="diagram-step">
+          <span class="diagram-step-num">2</span>
+          <span class="diagram-step-text"><code class="diagram-step-code">&lt;video ref&gt;</code> for each stream</span>
+        </div>
+        <div class="diagram-connector"></div>
+        <div class="diagram-step">
+          <span class="diagram-step-num">3</span>
+          <span class="diagram-step-text">Controls: mute / video / end-call</span>
+        </div>
+        <div class="diagram-connector"></div>
+        <div class="diagram-step">
+          <span class="diagram-step-num">4</span>
+          <span class="diagram-step-text">Callbacks → parent: <code class="diagram-step-code">onToggleAudio()</code></span>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="diagram-comparison" style="display: flex; gap: 24px;">
+    <div class="diagram-comparison-side" style="flex: 1;">
+      <div class="diagram-comparison-title">LOCAL FEED</div>
+      <div class="diagram-comparison-content">
+        <div class="video-feed local">
+          <span style="color: #5cb85c;">🎥 Your Camera</span>
+        </div>
+        <div style="font-size: 11px; color: #888; margin-top: 4px;">muted (prevents feedback)</div>
+      </div>
+    </div>
+    <div class="diagram-comparison-side" style="flex: 1;">
+      <div class="diagram-comparison-title">REMOTE FEED</div>
+      <div class="diagram-comparison-content">
+        <div class="video-feed remote">
+          <span style="color: #6a5af9;">🎥 Opponent</span>
+        </div>
+        <div style="font-size: 11px; color: #888; margin-top: 4px;">audio enabled</div>
+      </div>
+    </div>
+    <div class="diagram-comparison-side" style="flex: 1;">
+      <div class="diagram-comparison-title">CONTROLS</div>
+      <div class="diagram-comparison-content">
+        <div class="controls-row">
+          <span class="ctrl-btn">🔊 Mute</span>
+          <span class="ctrl-btn">📹 Video</span>
+          <span class="ctrl-btn end">📞 End</span>
+        </div>
+        <div class="status-pill connected" style="margin-top: 12px; display: block; text-align: center;">● connected</div>
+      </div>
+    </div>
+  </div>
+</div>
+</body>
+</html>

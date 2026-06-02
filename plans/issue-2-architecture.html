@@ -1,0 +1,84 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="UTF-8">
+  <link rel="stylesheet" href="../../extra.css">
+</head>
+<body>
+<div class="diagram" style="padding: 24px;">
+  <div style="display: flex; flex-direction: column; gap: 20px;">
+    <!-- CLIENT -->
+    <div class="diagram-box main" style="max-width: 500px;">
+      <div class="diagram-box-title">CLIENT (React + Vite)</div>
+      <div style="display: flex; gap: 12px; margin-top: 10px;">
+        <div style="background: rgba(255,255,255,0.06); border-radius: 8px; padding: 8px 12px; font-size: 12px; color: #c0c8e8;">App.tsx</div>
+        <div style="background: rgba(255,255,255,0.06); border-radius: 8px; padding: 8px 12px; font-size: 12px; color: #c0c8e8;">Lobby</div>
+        <div style="background: rgba(255,255,255,0.06); border-radius: 8px; padding: 8px 12px; font-size: 12px; color: #c0c8e8;">Socket.io-client</div>
+      </div>
+    </div>
+
+    <!-- CONNECTOR -->
+    <div class="diagram-ipc">
+      <div class="diagram-ipc-inner">
+        <div class="diagram-ipc-line"></div>
+        <div class="diagram-ipc-label">WebSocket / HTTP</div>
+        <div class="diagram-ipc-arrow"></div>
+      </div>
+    </div>
+
+    <!-- SERVER LAYER -->
+    <div style="display: flex; gap: 16px;">
+      <div class="diagram-box main" style="flex: 1;">
+        <div class="diagram-box-title">EXPRESS SERVER</div>
+        <div class="diagram-steps" style="margin-top: 10px;">
+          <div class="diagram-step"><span class="diagram-step-num">1</span><span class="diagram-step-text">HTTP routes: <span class="diagram-step-code">GET /health</span></span></div>
+          <div class="diagram-connector"></div>
+          <div class="diagram-step"><span class="diagram-step-num">2</span><span class="diagram-step-text">CORS middleware</span></div>
+          <div class="diagram-connector"></div>
+          <div class="diagram-step"><span class="diagram-step-num">3</span><span class="diagram-step-text">Env config (PORT, ORIGIN)</span></div>
+        </div>
+      </div>
+      <div class="diagram-box renderer" style="flex: 1;">
+        <div class="diagram-box-title" style="color: #10b981;">SOCKET.IO</div>
+        <div class="diagram-steps" style="margin-top: 10px;">
+          <div class="diagram-step"><span class="diagram-step-num">4</span><span class="diagram-step-text">Socket.io server instance</span></div>
+          <div class="diagram-connector"></div>
+          <div class="diagram-step"><span class="diagram-step-num">5</span><span class="diagram-step-text">Namespace: <span class="diagram-step-code">/</span> (lobby)</span></div>
+          <div class="diagram-connector"></div>
+          <div class="diagram-step"><span class="diagram-step-num">6</span><span class="diagram-step-text">Namespace: <span class="diagram-step-code">/game</span></span></div>
+        </div>
+      </div>
+    </div>
+
+    <!-- ROOM MANAGEMENT -->
+    <div class="diagram-connector"></div>
+    <div class="diagram-box main" style="max-width: 600px;">
+      <div class="diagram-box-title">ROOM MANAGER (rooms.ts)</div>
+      <div class="diagram-steps" style="margin-top: 10px;">
+        <div class="diagram-step"><span class="diagram-step-num">1</span><span class="diagram-step-text"><span class="diagram-step-code">createRoom()</span> — generates room ID</span></div>
+        <div class="diagram-connector"></div>
+        <div class="diagram-step"><span class="diagram-step-num">2</span><span class="diagram-step-text"><span class="diagram-step-code">joinRoom(socket, roomId)</span></span></div>
+        <div class="diagram-connector"></div>
+        <div class="diagram-step"><span class="diagram-step-num">3</span><span class="diagram-step-text"><span class="diagram-step-code">leaveRoom(socket, roomId)</span></span></div>
+        <div class="diagram-connector"></div>
+        <div class="diagram-step"><span class="diagram-step-num">4</span><span class="diagram-step-text"><span class="diagram-step-code">listRooms()</span> — filter active</span></div>
+        <div class="diagram-connector"></div>
+        <div class="diagram-step"><span class="diagram-step-num">5</span><span class="diagram-step-text"><span class="diagram-step-code">getRoom(roomId)</span> — room state</span></div>
+      </div>
+    </div>
+
+    <!-- TYPES -->
+    <div class="diagram-connector"></div>
+    <div class="diagram-box main" style="max-width: 600px;">
+      <div class="diagram-box-title">SHARED TYPES (types.ts)</div>
+      <div style="display: flex; gap: 12px; margin-top: 10px; flex-wrap: wrap;">
+        <div style="background: rgba(255,255,255,0.06); border-radius: 8px; padding: 8px 12px; font-size: 12px; color: #c0c8e8;">SocketEvents</div>
+        <div style="background: rgba(255,255,255,0.06); border-radius: 8px; padding: 8px 12px; font-size: 12px; color: #c0c8e8;">RoomState</div>
+        <div style="background: rgba(255,255,255,0.06); border-radius: 8px; padding: 8px 12px; font-size: 12px; color: #c0c8e8;">PlayerInfo</div>
+        <div style="background: rgba(255,255,255,0.06); border-radius: 8px; padding: 8px 12px; font-size: 12px; color: #c0c8e8;">ServerConfig</div>
+      </div>
+    </div>
+  </div>
+</div>
+</body>
+</html>

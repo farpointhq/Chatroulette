@@ -1,0 +1,88 @@
+<link rel="stylesheet" href="../stylesheets/extra.css">
+<div class="diagram">
+  <div class="diagram-title">Chess Engine Architecture</div>
+
+  <!-- UI Layer -->
+  <div class="diagram-box renderer">
+    <div class="diagram-box-title">UI LAYER</div>
+    <div class="diagram-steps">
+      <div class="diagram-step">
+        <span class="diagram-step-num">1</span>
+        <span class="diagram-step-text"><strong>ChessBoard.tsx</strong> — React component, 8×8 grid, drag-and-drop, promotion picker</span>
+      </div>
+      <div class="diagram-connector"></div>
+      <div class="diagram-step">
+        <span class="diagram-step-num">2</span>
+        <span class="diagram-step-text"><strong>Game Hook</strong> — Manages game state, calls engine for validation</span>
+      </div>
+    </div>
+  </div>
+
+  <div class="diagram-ipc">
+    <div class="diagram-ipc-inner">
+      <div class="diagram-ipc-line"></div>
+      <div class="diagram-ipc-label">API calls</div>
+      <div class="diagram-ipc-arrow"></div>
+    </div>
+  </div>
+
+  <!-- Engine Layer -->
+  <div class="diagram-box main">
+    <div class="diagram-box-title">ENGINE LAYER</div>
+    <div class="diagram-steps">
+      <div class="diagram-step">
+        <span class="diagram-step-num">1</span>
+        <span class="diagram-step-text"><strong>ChessEngine</strong> (chess.js wrapper) — Main entry point: <code class="diagram-step-code">.move()</code>, <code class="diagram-step-code">.fen()</code>, <code class="diagram-step-code">.pgn()</code></span>
+      </div>
+      <div class="diagram-connector"></div>
+      <div class="diagram-step">
+        <span class="diagram-step-num">2</span>
+        <span class="diagram-step-text"><strong>game.ts</strong> — <code class="diagram-step-code">createGame()</code>, <code class="diagram-step-code">makeMove()</code>, <code class="diagram-step-code">undoMove()</code>, <code class="diagram-step-code">getGameResult()</code></span>
+      </div>
+      <div class="diagram-connector"></div>
+      <div class="diagram-step">
+        <span class="diagram-step-num">3</span>
+        <span class="diagram-step-text"><strong>moves.ts</strong> — <code class="diagram-step-code">generateLegalMoves()</code>, <code class="diagram-step-code">isInCheck()</code>, <code class="diagram-step-code">isSquareAttacked()</code></span>
+      </div>
+      <div class="diagram-connector"></div>
+      <div class="diagram-step">
+        <span class="diagram-step-num">4</span>
+        <span class="diagram-step-text"><strong>special.ts</strong> — Castling, en passant, promotion validation</span>
+      </div>
+      <div class="diagram-connector"></div>
+      <div class="diagram-step">
+        <span class="diagram-step-num">5</span>
+        <span class="diagram-step-text"><strong>fen.ts</strong> — FEN parse/generate, <code class="diagram-step-code">STARTING_FEN</code></span>
+      </div>
+      <div class="diagram-connector"></div>
+      <div class="diagram-step">
+        <span class="diagram-step-num">6</span>
+        <span class="diagram-step-text"><strong>pgn.ts</strong> — SAN notation, <code class="diagram-step-code">generatePGN()</code> with headers</span>
+      </div>
+      <div class="diagram-connector"></div>
+      <div class="diagram-step">
+        <span class="diagram-step-num">7</span>
+        <span class="diagram-step-text"><strong>board.ts</strong> — Board primitives: coordinates, piece get/set, board creation</span>
+      </div>
+    </div>
+  </div>
+
+  <div class="diagram-ipc">
+    <div class="diagram-ipc-inner">
+      <div class="diagram-ipc-line"></div>
+      <div class="diagram-ipc-label">delegates to</div>
+      <div class="diagram-ipc-arrow"></div>
+    </div>
+  </div>
+
+  <!-- Core Library -->
+  <div class="diagram-box renderer">
+    <div class="diagram-box-title">CORE LIBRARY</div>
+    <div class="diagram-steps">
+      <div class="diagram-step">
+        <span class="diagram-step-num">★</span>
+        <span class="diagram-step-text"><strong>chess.js</strong> — Battle-tested library handling all rule logic, move generation, check detection</span>
+      </div>
+    </div>
+  </div>
+</div>
