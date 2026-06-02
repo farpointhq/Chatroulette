@@ -8,7 +8,7 @@ global.MediaStream = vi.fn().mockImplementation((tracks = []) => ({
   getVideoTracks: vi.fn().mockReturnValue([]),
   addTrack: vi.fn(),
   removeTrack: vi.fn(),
-  clone: vi.fn().mockReturnValue(new MediaStream()),
+  clone: vi.fn().mockReturnValue({ getTracks: vi.fn().mockReturnValue(tracks) }),
 })) as unknown as typeof MediaStream;
 
 // Mock navigator.mediaDevices for WebRTC tests
