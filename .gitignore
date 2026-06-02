@@ -1,0 +1,16 @@
+.git/
+.fabric/
+node_modules/
+.venv/
+__pycache__/
+venv/
+build/
+dist/
+out/
+.cache/
+cache/
+tmp/
+tmp.benchmarks/
+*.map
+*.log
+.DS_Store
