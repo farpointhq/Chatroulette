@@ -69,11 +69,22 @@ describe('rooms', () => {
   });
 
   describe('leaveRoom', () => {
-    it('removes player from room', () => {
+    it('removes player from room and keeps room if other players remain', () => {
       const room = createRoom();
       joinRoom(room.id, { id: 'player-1' });
+      joinRoom(room.id, { id: 'player-2' });
       const updated = leaveRoom(room.id, 'player-1');
-      expect(updated?.players).toHaveLength(0);
+      expect(updated).toBeDefined();
+      expect(updated?.players).toHaveLength(1);
+      expect(updated?.players[0].id).toBe('player-2');
+    });
+
+    it('returns null when last player leaves (room auto-deleted)', () => {
+      const room = createRoom();
+      joinRoom(room.id, { id: 'player-1' });
+      const result = leaveRoom(room.id, 'player-1');
+      expect(result).toBeNull();
+      expect(getRoom(room.id)).toBeUndefined();
     });
 
     it('returns null when room becomes empty', () => {
