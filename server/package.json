@@ -1,0 +1,14 @@
+{
+  "name": "chatroulette-server",
+  "version": "1.0.0",
+  "description": "Chess Roulette server",
+  "main": "src/index.js",
+  "type": "module",
+  "scripts": {
+    "start": "node src/index.js",
+    "test": "node --test"
+  },
+  "dependencies": {
+    "ws": "^8.21.0"
+  }
+}
